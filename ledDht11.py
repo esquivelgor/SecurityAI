@@ -4,7 +4,6 @@ import time
 import board
 import adafruit_dht
 
-
 app = Flask(__name__)
 
 # Conexion led
@@ -38,5 +37,16 @@ def led():
                 dhtDevice.exit()
                 raise error
             time.sleep(2.0)
+    elif status == 'photoresistor':
+        pin = 4
+        GPIO.setup(pin, GPIO.OUT)
+        GPIO.output(pin, GPIO.LOW)
+
+        GPIO.setup(pin, GPIO.IN)
+
+        if(GPIO.input(pin) == GPIO.LOW):
+            return jsonify({"message": "No hay luz!"})
+        else:
+            return jsonify({"message": "Hay luz!"})
     else:
         return jsonify({"message": "No es correcto"})
