@@ -37,3 +37,5 @@
 - [ ] Apartado para observar la camara en realtime
 - [ ] Apartado para tener estadisticas basicas 
 - [ ] El website tiene cierta seguridad, contando con un pagina login (lo hice con php, pero esta re antigua esa madre)
+- [ ] Responsive design
+- [ ] Team GAMMP
