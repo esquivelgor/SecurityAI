@@ -15,7 +15,7 @@
 - [ ] Obtener data mediante el microfono
 - [ ] Obtener data mediante la camara
 - [ ] Se compara tal data en la database
-- [ ] 
+- [ ] Se da paso a la persona o ps no
 
 ## Database
 - [ ] Creacion del database en la raspberry
