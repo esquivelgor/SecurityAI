@@ -18,7 +18,7 @@
 - [ ] Se da paso a la persona o ps no
 
 ## Database
-1. [ ] Eleccion de la database - > [https://iot4beginners.com/top-5-databases-to-store-iot-data/](Comparacion)
+1. [ ] Eleccion de la database - > [Comparacion](https://iot4beginners.com/top-5-databases-to-store-iot-data/)
 2. [ ] Creacion del database en la raspberry
 3. [ ] Tabla de credenciales
 4. [ ] Tabla de personas que entran (Vacia, solo parametros)
