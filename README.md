@@ -1,15 +1,15 @@
 # Raspberry
 
 ## Sensores y raspberry
-- [x] Raspberry
-- [ ] Camera
-- [ ] Speaker
-- [ ] Microphone
+1. [x] Raspberry
+2. [ ] Connect Camera 
+3. [ ] Connect Speaker
+4. [ ] Microphone
 - [ ] Sensor de proximidad (O boton)
 - [ ] Led (Simulacion de puerta)
 
 ## Programacion
-- [ ] Sensor de proximidad se mantiene activo hasta tomar algun dato, de ahi se activa la camara y microfono. (O boton)
+1. [ ] Sensor de proximidad se mantiene activo hasta tomar algun dato, de ahi se activa la camara y microfono. (O boton)
 - [ ] Ejecuta comandos de voz mediante el speaker.
 - [ ] Preguntar si esta registrado o no (para tomar el reconocimiento facial o el speak2text)
 - [ ] Obtener data mediante el microfono
@@ -18,19 +18,19 @@
 - [ ] Se da paso a la persona o ps no
 
 ## Database
-- [ ] Creacion del database en la raspberry
-- [ ] Tabla de credenciales
-- [ ] Tabla de personas que entran
+1. [ ] Creacion del database en la raspberry
+2. [ ] Tabla de credenciales
+3. [ ] Tabla de personas que entran (Vacia, solo parametros)
 - [ ] Tabla de rostros? idk
 
 ## Redes
-- [x] Ejecucion del website en red local
-- [x] Ejecucion del website en red global
-- [ ] Conectividad ssh en red local (tec porque sino no jala)
-- [ ] Conectividad ssh en red global
+1. [x] Ejecucion del website en red local
+2. [x] Ejecucion del website en red global
+3. [ ] Conectividad ssh en red local (tec porque sino no jala)
+4. [ ] Conectividad ssh en red global
 
 ## Website
-- [ ] Creacion del website
+1. [ ] Creacion del website
 - [ ] Apartado para observar las diferentes tablas
 - [ ] Las tablas pueden tener modificaciones o eliminaciones en los datos
 - [ ] Diseño feliz como paola feliz
