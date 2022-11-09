@@ -18,10 +18,11 @@
 - [ ] Se da paso a la persona o ps no
 
 ## Database
-1. [ ] Creacion del database en la raspberry
-2. [ ] Tabla de credenciales
-3. [ ] Tabla de personas que entran (Vacia, solo parametros)
-4. [ ] Connection.py (Archivo para hacer la conexion a la database) 
+1. [ ] Eleccion de la database - > [https://iot4beginners.com/top-5-databases-to-store-iot-data/](Comparacion)
+2. [ ] Creacion del database en la raspberry
+3. [ ] Tabla de credenciales
+4. [ ] Tabla de personas que entran (Vacia, solo parametros)
+5. [ ] Connection.py (Archivo para hacer la conexion a la database) 
 - [ ] Tabla de rostros? idk
 
 ## Redes
