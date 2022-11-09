@@ -21,6 +21,7 @@
 1. [ ] Creacion del database en la raspberry
 2. [ ] Tabla de credenciales
 3. [ ] Tabla de personas que entran (Vacia, solo parametros)
+4. [ ] Connection.py (Archivo para hacer la conexion a la database) 
 - [ ] Tabla de rostros? idk
 
 ## Redes
