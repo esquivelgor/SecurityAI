@@ -3,10 +3,10 @@
 ## Sensores y raspberry
 1. [x] Raspberry
 2. [ ] Connect Camera 
-3. [ ] Connect Speaker
-4. [ ] Microphone
-- [ ] Sensor de proximidad (O boton)
-- [ ] Led (Simulacion de puerta)
+3. [ ] Boton
+4. [ ] Led (Simulacion de puerta)
+5. [ ] Connect Speaker
+- [ ] Microphone
 
 ## Programacion
 1. [ ] Sensor de proximidad se mantiene activo hasta tomar algun dato, de ahi se activa la camara y microfono. (O boton)
@@ -28,7 +28,7 @@
 ## Redes
 1. [x] Ejecucion del website en red local
 2. [x] Ejecucion del website en red global
-3. [ ] Conectividad ssh en red local (tec porque sino no jala)
+3. [X] Conectividad ssh en red local
 4. [ ] Conectividad ssh en red global
 
 ## Website
