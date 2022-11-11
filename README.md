@@ -12,7 +12,7 @@
 1. [ ] Sensor de proximidad se mantiene activo hasta tomar algun dato, de ahi se activa la camara y microfono. (O boton)
 - [ ] Ejecuta comandos de voz mediante el speaker.
 - [ ] Preguntar si esta registrado o no (para tomar el reconocimiento facial o el speak2text)
-- [ ] Obtener data mediante el microfono
+- [ ] Obtener data mediante el microfono [Link](https://www.youtube.com/watch?v=c_0Q3T0XYTA)
 - [ ] Obtener data mediante la camara
 - [ ] Se compara tal data en la database
 - [ ] Se da paso a la persona o ps no
