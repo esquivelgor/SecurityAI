@@ -5,7 +5,7 @@
 2. [ ] Connect Camera 
 3. [ ] Boton [Codigo](https://raspberrypihq.com/use-a-push-button-with-raspberry-pi-gpio/)
 4. [ ] Led (Simulacion de puerta)
-5. [ ] Conectar pantalla LCD
+5. [ ] Conectar pantalla LCD [Link](https://www.youtube.com/watch?v=YUII39FzUb4)
 6. [ ] Microphone
 
 ## Programacion
