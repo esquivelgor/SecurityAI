@@ -3,10 +3,10 @@
 ## Sensores y raspberry
 1. [x] Raspberry
 2. [ ] Connect Camera 
-3. [ ] Boton
+3. [ ] Boton [Codigo](https://raspberrypihq.com/use-a-push-button-with-raspberry-pi-gpio/)
 4. [ ] Led (Simulacion de puerta)
-5. [ ] Connect Speaker
-- [ ] Microphone
+5. [ ] Conectar pantalla LCD
+6. [ ] Microphone
 
 ## Programacion
 1. [ ] Sensor de proximidad se mantiene activo hasta tomar algun dato, de ahi se activa la camara y microfono. (O boton)
@@ -18,8 +18,8 @@
 - [ ] Se da paso a la persona o ps no
 
 ## Database
-1. [ ] Eleccion de la database - > [Comparacion](https://iot4beginners.com/top-5-databases-to-store-iot-data/)
-2. [ ] Creacion del database en la raspberry
+1. [x] Eleccion de la database
+2. [x] Creacion del database en la raspberry
 3. [ ] Tabla de credenciales
 4. [ ] Tabla de personas que entran (Vacia, solo parametros)
 5. [ ] Connection.py (Archivo para hacer la conexion a la database) 
@@ -32,12 +32,12 @@
 4. [ ] Conectividad ssh en red global
 
 ## Website
-1. [ ] Creacion del website
-- [ ] Apartado para observar las diferentes tablas
-- [ ] Las tablas pueden tener modificaciones o eliminaciones en los datos
-- [ ] Diseño feliz como paola feliz
-- [ ] Apartado para observar la camara en realtime
+1. [x] Creacion del website
+2. [ ] Apartado para observar las diferentes tablas
+3. [ ] Las tablas pueden tener modificaciones o eliminaciones en los datos
+4. [ ] Diseño feliz como paola feliz
+5. [ ] Apartado para observar la camara en realtime
 - [ ] Apartado para tener estadisticas basicas 
 - [ ] El website tiene cierta seguridad, contando con un pagina login (lo hice con php, pero esta re antigua esa madre)
 - [ ] Responsive design
-- [ ] Team GAMMP
+- [x] Team GAMMP
