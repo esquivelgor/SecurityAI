@@ -3,8 +3,8 @@
 ## Sensores y raspberry
 1. [x] Raspberry
 2. [ ] Connect Camera [Link](https://projects.raspberrypi.org/en/projects/getting-started-with-picamera/5)
-3. [ ] Boton [Codigo](https://raspberrypihq.com/use-a-push-button-with-raspberry-pi-gpio/)
-4. [ ] Led (Simulacion de puerta)
+3. [x] Boton [Codigo](https://raspberrypihq.com/use-a-push-button-with-raspberry-pi-gpio/)
+4. [x] Led (Simulacion de puerta)
 5. [ ] Conectar pantalla LCD [Link](https://www.youtube.com/watch?v=YUII39FzUb4)
 6. [ ] Microphone
 
