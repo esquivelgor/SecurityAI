@@ -9,8 +9,10 @@
 6. [ ] Microphone
 
 ## Programacion
-1. [ ] Al presionar el boton ejecutamos los demas procesos
-2. [ ] Speech2Text.
+1. [x] Al presionar el boton ejecutamos los demas procesos
+2. [ ] Grabar audios
+3. [ ] Text2speech
+4. [ ] Speech2Text
 - [ ] Obtener data mediante el microfono [Link](https://www.youtube.com/watch?v=c_0Q3T0XYTA)
 - [ ] Preguntar si esta registrado o no (para tomar el reconocimiento facial o el speak2text)
 - [ ] Obtener data mediante la camara
