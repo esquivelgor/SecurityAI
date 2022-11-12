@@ -9,10 +9,10 @@
 6. [ ] Microphone
 
 ## Programacion
-1. [ ] Sensor de proximidad se mantiene activo hasta tomar algun dato, de ahi se activa la camara y microfono. (O boton)
-- [ ] Ejecuta comandos de voz mediante el speaker.
-- [ ] Preguntar si esta registrado o no (para tomar el reconocimiento facial o el speak2text)
+1. [ ] Al presionar el boton ejecutamos los demas procesos
+2. [ ] Speech2Text.
 - [ ] Obtener data mediante el microfono [Link](https://www.youtube.com/watch?v=c_0Q3T0XYTA)
+- [ ] Preguntar si esta registrado o no (para tomar el reconocimiento facial o el speak2text)
 - [ ] Obtener data mediante la camara
 - [ ] Se compara tal data en la database
 - [ ] Se da paso a la persona o ps no
@@ -20,7 +20,7 @@
 ## Database
 1. [x] Eleccion de la database
 2. [x] Creacion del database en la raspberry
-3. [ ] Tabla de credenciales
+3. [x] Tabla de credenciales
 4. [ ] Tabla de personas que entran (Vacia, solo parametros)
 5. [ ] Connection.py (Archivo para hacer la conexion a la database) 
 - [ ] Tabla de rostros? idk
