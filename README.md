@@ -2,17 +2,16 @@
 
 ## Sensores y raspberry
 1. [x] Raspberry
-2. [ ] Connect Camera [Link](https://projects.raspberrypi.org/en/projects/getting-started-with-picamera/5)
+2. [x] Connect Camera [Link](https://projects.raspberrypi.org/en/projects/getting-started-with-picamera/5)
 3. [x] Boton [Codigo](https://raspberrypihq.com/use-a-push-button-with-raspberry-pi-gpio/)
 4. [x] Led (Simulacion de puerta)
-5. [ ] Conectar pantalla LCD [Link](https://www.youtube.com/watch?v=YUII39FzUb4)
-6. [ ] Microphone
+5. [x] Microfono
+6. [x] Bocina
 
 ## Programacion
 1. [x] Al presionar el boton ejecutamos los demas procesos
-2. [ ] Grabar audios
-3. [ ] Text2speech
-4. [ ] Speech2Text
+2. [x] Text2speech
+3. [x] Speech2Text
 - [ ] Obtener data mediante el microfono [Link](https://www.youtube.com/watch?v=c_0Q3T0XYTA)
 - [ ] Preguntar si esta registrado o no (para tomar el reconocimiento facial o el speak2text)
 - [ ] Obtener data mediante la camara
