@@ -1,38 +1,69 @@
-import speech_recognition as sr
-from gtts import gTTS
-from time import sleep
-from playsound import playsound
+import whisper # Speech2text modelo de OpenAI
+import pyaudio # Grabar audio
+import wave # Grabar audio
+from gtts import gTTS # Text2speech
+from time import sleep 
+from playsound import playsound # Reproducir sonido
+#from dataclasses import dataclass, asdic
 
-def speech2text():
-    r = sr.Recognizer()
-    speech = sr.Microphone(device_index=1)
-    with speech as source:
-        print("Escuchando...")
-        audio = r.adjust_for_ambient_noise(source)
-        audio = r.listen(source)
-    try:
-        recog = r.recognize_google(audio, language = 'es-MX')
-        return recog
+model = whisper.load_model("base")
 
-    except sr.UnknownValueError:
-        text2speech("Perdon, no se pudo entender tu audio")
-    except sr.RequestError as e:
-        print("Could not request results from Google Speech Recognition service; {0}".format(e))
+def s2tWhisper():
+    result = model.transcribe("output.wav", fp16=False, language='Spanish')    
+    return(result["text"])
 
-def text2speech(msg):
+def t2s(msg):
     speech = gTTS(text = msg, lang = 'es')
     speech.save('DataFlair.mp3')
     playsound('DataFlair.mp3')
 
-while True:
-    text2speech("Bienvenido usuario promedio, usted ya se encuentra registrado?")
-    text = speech2text()
-    if "si" in text:
-        text2speech("Por favor, mencione su matricula")
-        matricula = speech2text()
-        print(matricula)
-        text2speech("Gracias, puede pasar mi chingon!")
-    print(text)
+def getAudio():
+    FRAME_PER_BUFFER = 3200
+    FORMAT = pyaudio.paInt16 
+    CHANNELS = 1 # Monoformat
+    RATE = 16000
     
+    p = pyaudio.PyAudio()
+    
+    stream = p.open(
+        format = FORMAT,
+        channels = CHANNELS,
+        rate = RATE,
+        input = True,
+        frames_per_buffer = FRAME_PER_BUFFER
+    )
+    
+    print("Start recording")
+    
+    sec = 10
+    frames = []
+    for i in range(0, int(RATE/FRAME_PER_BUFFER*sec)):
+        data = stream.read(FRAME_PER_BUFFER)
+        frames.append(data)
+    
+    stream.close()
+    p.terminate()
+    
+    obj =  wave.open("output.wav","wb")
+    obj.setnchannels(CHANNELS)
+    obj.setsampwidth(p.get_sample_size(FORMAT))
+    obj.setframerate(RATE)
+    obj.writeframes(b"".join(frames))
+    obj.close()
+
+
+#while True:
+print("proceso")
+#t2s("Bienvenido usuario promedio, usted ya se encuentra registrado?")
+getAudio() # Grabar audio
+text = s2tWhisper()
+if "si" in text:
+    print("Se reconoce perroo")
+    #t2s("Por favor, mencione su matricula")
+    #matricula = speech2text()
+    #print(matricula)
+    #t2("Gracias, puede pasar mi chingon!")
+print(text)
+
     
     
