@@ -1,4 +1,4 @@
-# Raspberry Project ToDo
+# IOT Project ToDo Week 15/17
 
 ## Sensores y raspberry
 1. [x] Raspberry
@@ -12,33 +12,34 @@
 1. [x] Al presionar el boton ejecutamos los demas procesos
 2. [x] Text2speech
 3. [x] Speech2Text
-- [ ] Obtener data mediante el microfono [Link](https://www.youtube.com/watch?v=c_0Q3T0XYTA)
-- [ ] Preguntar si esta registrado o no (para tomar el reconocimiento facial o el speak2text)
-- [ ] Obtener data mediante la camara
+4. [x] Obtener data mediante el microfono
+5. [x] Obtener data mediante la camara
 - [ ] Se compara tal data en la database
-- [ ] Se da paso a la persona o ps no
+- [ ] Programacion de las opciones
+- [ ] Flip flop
+- [ ] Face recognition
 
 ## Database
 1. [x] Eleccion de la database
 2. [x] Creacion del database en la raspberry
 3. [x] Tabla de credenciales
 4. [ ] Tabla de personas que entran (Vacia, solo parametros)
-5. [ ] Connection.py (Archivo para hacer la conexion a la database) 
-- [ ] Tabla de rostros? idk
+5. [ ] Guardar los datos en la database desde python
+- [ ] Enviar los datos al website
+- [ ] Mostrar los datos en el website
 
 ## Redes
-1. [x] Ejecucion del website en red local
-2. [x] Ejecucion del website en red global
-3. [X] Conectividad ssh en red local
-4. [ ] Conectividad ssh en red global
+- [ ] Ejecucion del website en red local
+- [ ] Ejecucion del website en red global
+- [ ] Conectividad ssh en red local
+- [ ] Conectividad ssh en red global
 
 ## Website
 1. [x] Creacion del website
-2. [ ] Apartado para observar las diferentes tablas
-3. [ ] Las tablas pueden tener modificaciones o eliminaciones en los datos
-4. [ ] Diseño feliz como paola feliz
-5. [ ] Apartado para observar la camara en realtime
-- [ ] Apartado para tener estadisticas basicas 
-- [ ] El website tiene cierta seguridad, contando con un pagina login (lo hice con php, pero esta re antigua esa madre)
-- [ ] Responsive design
-- [x] Team GAMMP
+2. [ ] Pagina para mostrar las tablas
+- [ ] Pagina para observar la camara en realtime
+- [ ] Pagina para tener estadisticas basicas
+- [ ] Las tablas pueden tener modificaciones o eliminaciones en los datos
+3. [x] Cuenta con un login de admin
+4. [x] Responsive design
+- [ ] Informacion de contacto GAMMP
