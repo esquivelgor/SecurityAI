@@ -4,20 +4,22 @@ import wave # Grabar audio
 from gtts import gTTS # Text2speech
 from time import sleep 
 from playsound import playsound # Reproducir sonido
-#from dataclasses import dataclass, asdic
 
 model = whisper.load_model("base")
 
-def s2tWhisper():
+# Speech to text method
+def s2t():
     result = model.transcribe("output.wav", fp16=False, language='Spanish')    
     return(result["text"])
 
+# Text to speech method
 def t2s(msg):
     speech = gTTS(text = msg, lang = 'es')
     speech.save('DataFlair.mp3')
     playsound('DataFlair.mp3')
 
-def getAudio():
+# Method to get the audio
+def getAudio(time):
     FRAME_PER_BUFFER = 3200
     FORMAT = pyaudio.paInt16 
     CHANNELS = 1 # Monoformat
@@ -35,7 +37,7 @@ def getAudio():
     
     print("Start recording")
     
-    sec = 10
+    sec = time
     frames = []
     for i in range(0, int(RATE/FRAME_PER_BUFFER*sec)):
         data = stream.read(FRAME_PER_BUFFER)
@@ -52,18 +54,19 @@ def getAudio():
     obj.close()
 
 
+# -------------------------- Main --------------------------
 #while True:
-print("proceso")
-#t2s("Bienvenido usuario promedio, usted ya se encuentra registrado?")
-getAudio() # Grabar audio
-text = s2tWhisper()
-if "si" in text:
+print("Inicia proceso")
+t2s("Bienvenido usuario promedio, usted ya se encuentra registrado?")
+getAudio(5) # Grabar audio
+data = s2t()
+if ("si" or "hola") in data:
     print("Se reconoce perroo")
     #t2s("Por favor, mencione su matricula")
     #matricula = speech2text()
     #print(matricula)
-    #t2("Gracias, puede pasar mi chingon!")
-print(text)
+    t2s("Gracias, puede pasar mi chingon!")
+print(f"Texto = {data}")
 
     
     
