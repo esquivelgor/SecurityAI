@@ -55,7 +55,7 @@ def getAudio(time):
 
 
 # -------------------------- Main --------------------------
-#while True:
+
 print("Inicia proceso")
 t2s("Bienvenido usuario promedio, usted ya se encuentra registrado?")
 getAudio(5) # Grabar audio
@@ -68,5 +68,6 @@ if ("si" or "hola") in data:
     t2s("Gracias, puede pasar mi chingon!")
 print(f"Texto = {data}")
 
+    
     
     
