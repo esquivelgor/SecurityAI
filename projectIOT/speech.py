@@ -4,6 +4,7 @@ import wave # Grabar audio
 from gtts import gTTS # Text2speech
 from time import sleep 
 from playsound import playsound # Reproducir sonido
+import sqlite3
 
 model = whisper.load_model("base")
 
@@ -15,8 +16,8 @@ def s2t():
 # Text to speech method
 def t2s(msg):
     speech = gTTS(text = msg, lang = 'es')
-    speech.save('DataFlair.mp3')
-    playsound('DataFlair.mp3')
+    speech.save('computerAudio.mp3')
+    playsound('computerAudio.mp3')
 
 # Method to get the audio
 def getAudio(time):
@@ -35,7 +36,7 @@ def getAudio(time):
         frames_per_buffer = FRAME_PER_BUFFER
     )
     
-    print("Start recording")
+    print(f"Grabando por {time} segundos")
     
     sec = time
     frames = []
@@ -52,22 +53,42 @@ def getAudio(time):
     obj.setframerate(RATE)
     obj.writeframes(b"".join(frames))
     obj.close()
-
+    
+def recordAudio(time):
+    getAudio(time)
+    data = s2t()
+    return data
 
 # -------------------------- Main --------------------------
 
+conn = sqlite3.connect("database.sql")
+crsr = conn.cursor()
+
 print("Inicia proceso")
-t2s("Bienvenido usuario promedio, usted ya se encuentra registrado?")
-getAudio(5) # Grabar audio
-data = s2t()
-if ("si" or "hola") in data:
-    print("Se reconoce perroo")
+# Se presiona el boton
+
+t2s("Aqui andamos chambeando profeeeeee")
+
+#data = recordAudio(5) # Grabar audio
+
+
+#if "hola" in data:
+#    s2t("Holaaa")
+## Hay que cambiar la .sql a .db
+#if "datos" in data:
+    #t2s("Mostrando los datos")
+sqlCommand = "CREATE DATABASE users"
+crsr.execute(sqlCommand)
+
+#if ("si" or "hola") in data:
+#
+#    databaseConnection()
     #t2s("Por favor, mencione su matricula")
     #matricula = speech2text()
     #print(matricula)
-    t2s("Gracias, puede pasar mi chingon!")
-print(f"Texto = {data}")
+#    t2s("Gracias, puede pasar mi chingon!")
+#print(f"Texto = {data}")
 
-    
+conn.close()
     
     
