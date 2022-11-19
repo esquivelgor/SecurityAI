@@ -8,18 +8,18 @@ import sqlite3
 
 model = whisper.load_model("base")
 
-# Speech to text method
+# -_-_-_-_-_-_-_-_-_-_-_-_ Speech to text method -_-_-_-_-_-_-_-_-_-_-_-_
 def s2t():
     result = model.transcribe("output.wav", fp16=False, language='Spanish')    
     return(result["text"].lower())
 
-# Text to speech method
+# -_-_-_-_-_-_-_-_-_-_-_-_ Text to speech method -_-_-_-_-_-_-_-_-_-_-_-_
 def t2s(msg):
     speech = gTTS(text = msg, lang = 'es')
     speech.save('computerAudio.mp3')
     playsound('computerAudio.mp3')
 
-# Method to get the audio
+# -_-_-_-_-_-_-_-_-_-_-_-_ Method to get the audio -_-_-_-_-_-_-_-_-_-_-_-_
 def getAudio(time):
     FRAME_PER_BUFFER = 3200
     FORMAT = pyaudio.paInt16 
@@ -53,16 +53,20 @@ def getAudio(time):
     obj.setframerate(RATE)
     obj.writeframes(b"".join(frames))
     obj.close()
-    
+
+# -_-_-_-_-_-_-_-_-_-_-_-_ Get audio and apply s2t -_-_-_-_-_-_-_-_-_-_-_-_     
 def recordAudio(time):
     getAudio(time)
     data = s2t()
     return data
 
-# -------------------------- Main --------------------------
-
-conn = sqlite3.connect("database.sql")
+# -_-_-_-_-_-_-_-_-_-_-_- Connection to the database -_-_-_-_-_-_-_-_-_-_-_
+conn = sqlite3.connect("users.db")
 crsr = conn.cursor()
+
+# ------------ End connection to the database -------------------------------
+
+# -_-_-_-_-_-_-_-_-_-_-_-  Main -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 
 print("Inicia proceso")
 
@@ -75,11 +79,17 @@ if ("estudiante" or "colaborador" or "si") in data:
     print(f"Data 1 = {data}")
     print(f"Texto = {matricula.strip()}")
     # Verificacion en la database y se deja pasar
+elif "ver" in data:
+    querySQL = "SELECT `matricula` FROM `users`;"
+    for row in crsr.execute(querySQL):
+        print(row)
+    print(crsr.execute(querySQL))
+    t2s("Su query fue ejecutado correctamente!")
 else:
     print(f"Data 2 = {data}")
     t2s("Kyc alv")
     #data = recordAudio(5) # Recibir audio
 
-#conn.close()
+conn.close()
     
     
