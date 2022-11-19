@@ -61,8 +61,8 @@ def recordAudio(time):
 
 # -------------------------- Main --------------------------
 
-conn = sqlite3.connect("database.sql")
-crsr = conn.cursor()
+#conn = sqlite3.connect("database.sql")
+#crsr = conn.cursor()
 
 print("Inicia proceso")
 # Se presiona el boton
@@ -77,8 +77,8 @@ t2s("Aqui andamos chambeando profeeeeee")
 ## Hay que cambiar la .sql a .db
 #if "datos" in data:
     #t2s("Mostrando los datos")
-sqlCommand = "CREATE DATABASE users"
-crsr.execute(sqlCommand)
+#sqlCommand = "CREATE DATABASE users"
+#crsr.execute(sqlCommand)
 
 #if ("si" or "hola") in data:
 #
