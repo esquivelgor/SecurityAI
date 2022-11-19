@@ -61,8 +61,8 @@ def recordAudio(time):
 
 # -------------------------- Main --------------------------
 
-#conn = sqlite3.connect("database.sql")
-#crsr = conn.cursor()
+conn = sqlite3.connect("database.sql")
+crsr = conn.cursor()
 
 print("Inicia proceso")
 
