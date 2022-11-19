@@ -11,7 +11,7 @@ model = whisper.load_model("base")
 # Speech to text method
 def s2t():
     result = model.transcribe("output.wav", fp16=False, language='Spanish')    
-    return(result["text"])
+    return(result["text"].lower())
 
 # Text to speech method
 def t2s(msg):
@@ -65,30 +65,21 @@ def recordAudio(time):
 #crsr = conn.cursor()
 
 print("Inicia proceso")
-# Se presiona el boton
 
-t2s("Aqui andamos chambeando profeeeeee")
+t2s("Eres estudiante o colaborador?")
+data = recordAudio(3) # Grabar audio
 
-#data = recordAudio(5) # Grabar audio
+if ("estudiante" or "colaborador" or "si") in data:
+    t2s("Bienvenido, digame su matricula")
+    matricula = recordAudio(7)
+    print(f"Data 1 = {data}")
+    print(f"Texto = {matricula.strip()}")
+    # Verificacion en la database y se deja pasar
+else:
+    print(f"Data 2 = {data}")
+    t2s("Kyc alv")
+    #data = recordAudio(5) # Recibir audio
 
-
-#if "hola" in data:
-#    s2t("Holaaa")
-## Hay que cambiar la .sql a .db
-#if "datos" in data:
-    #t2s("Mostrando los datos")
-#sqlCommand = "CREATE DATABASE users"
-#crsr.execute(sqlCommand)
-
-#if ("si" or "hola") in data:
-#
-#    databaseConnection()
-    #t2s("Por favor, mencione su matricula")
-    #matricula = speech2text()
-    #print(matricula)
-#    t2s("Gracias, puede pasar mi chingon!")
-#print(f"Texto = {data}")
-
-conn.close()
+#conn.close()
     
     
