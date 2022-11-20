@@ -70,25 +70,47 @@ crsr = conn.cursor()
 
 print("Inicia proceso")
 
-t2s("Eres estudiante o colaborador?")
-data = recordAudio(3) # Grabar audio
+#t2s("Bienvenido al Tecnologico de Monterrey, es usted estudiante o colaborador?")
+#data = recordAudio(3)
+data = "estudiante"
 
-if ("estudiante" or "colaborador" or "si") in data:
-    t2s("Bienvenido, digame su matricula")
-    matricula = recordAudio(7)
-    print(f"Data 1 = {data}")
-    print(f"Texto = {matricula.strip()}")
-    # Verificacion en la database y se deja pasar
-elif "ver" in data:
-    querySQL = "SELECT `matricula` FROM `users`;"
-    for row in crsr.execute(querySQL):
-        print(row)
-    print(crsr.execute(querySQL))
-    t2s("Su query fue ejecutado correctamente!")
-else:
-    print(f"Data 2 = {data}")
-    t2s("Kyc alv")
-    #data = recordAudio(5) # Recibir audio
+cont = 1
+while cont:    
+    if ("estudiante") in data:
+        t2s("Dígame su matrícula sin la primer letra") #01625621
+        matAlu = recordAudio(5)
+        matAlu = matAlu.strip('., ')
+        print(f"Matricula:{matAlu}!")
+        try:
+            if(len(matAlu) == 8 or len(matAlu) == 9):
+                matAlu = int(matAlu)
+                querySQL = "SELECT `matricula` FROM `users`;"
+                for row in crsr.execute(querySQL):
+                    print(type(row))
+                print(f"Texto = {matAlu}")
+                print(f"Nombre = {nombre}")
+                cont = 0
+                print("Se pudo!")
+            else:
+                t2s("Hubo un pequeño error, por favor")    
+        except:
+            t2s("Hubo un pequeño error, por favor")
+        
+    elif ("colaborador") in data:
+        t2s("Bienvenido, digame su matricula")
+        matCol = recordAudio(7)
+        cont = 0
+    elif "ver" in data:
+        querySQL = "SELECT `matricula` FROM `users`;"
+        for row in crsr.execute(querySQL):
+            print(row)
+        print(crsr.execute(querySQL))
+        t2s("Su query fue ejecutado correctamente!")
+        cont = 0
+    else:
+        print(f"Data 2 = {data}")
+        t2s("No se pudo entender su respuesta, por favor repita.")
+        data = recordAudio(3) # Recibir audio
 
 conn.close()
     
