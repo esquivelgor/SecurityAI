@@ -1,117 +1,108 @@
-import whisper # Speech2text modelo de OpenAI
-import pyaudio # Grabar audio
-import wave # Grabar audio
-from gtts import gTTS # Text2speech
-from time import sleep 
-from playsound import playsound # Reproducir sonido
+#import Rpi.GPIO as GPIO # Puertos raspberry
+#import board # Creo que no sirve pa' nada
+#from flask import Flask, request, jsonify # Web framework 
+#from picamera import PiCamera
+# from time import sleep
+import methodsIOT as iot
 import sqlite3
 
-model = whisper.load_model("base")
-
-# -_-_-_-_-_-_-_-_-_-_-_-_ Speech to text method -_-_-_-_-_-_-_-_-_-_-_-_
-def s2t():
-    result = model.transcribe("output.wav", fp16=False, language='Spanish')    
-    return(result["text"].lower())
-
-# -_-_-_-_-_-_-_-_-_-_-_-_ Text to speech method -_-_-_-_-_-_-_-_-_-_-_-_
-def t2s(msg):
-    speech = gTTS(text = msg, lang = 'es')
-    speech.save('computerAudio.mp3')
-    playsound('computerAudio.mp3')
-
-# -_-_-_-_-_-_-_-_-_-_-_-_ Method to get the audio -_-_-_-_-_-_-_-_-_-_-_-_
-def getAudio(time):
-    FRAME_PER_BUFFER = 3200
-    FORMAT = pyaudio.paInt16 
-    CHANNELS = 1 # Monoformat
-    RATE = 16000
-    
-    p = pyaudio.PyAudio()
-    
-    stream = p.open(
-        format = FORMAT,
-        channels = CHANNELS,
-        rate = RATE,
-        input = True,
-        frames_per_buffer = FRAME_PER_BUFFER
-    )
-    
-    print(f"Grabando por {time} segundos")
-    
-    sec = time
-    frames = []
-    for i in range(0, int(RATE/FRAME_PER_BUFFER*sec)):
-        data = stream.read(FRAME_PER_BUFFER)
-        frames.append(data)
-    
-    stream.close()
-    p.terminate()
-    
-    obj =  wave.open("output.wav","wb")
-    obj.setnchannels(CHANNELS)
-    obj.setsampwidth(p.get_sample_size(FORMAT))
-    obj.setframerate(RATE)
-    obj.writeframes(b"".join(frames))
-    obj.close()
-
-# -_-_-_-_-_-_-_-_-_-_-_-_ Get audio and apply s2t -_-_-_-_-_-_-_-_-_-_-_-_     
-def recordAudio(time):
-    getAudio(time)
-    data = s2t()
-    return data
+# General Configuration
+#GPIO.setwarnings(False)
 
 # -_-_-_-_-_-_-_-_-_-_-_- Connection to the database -_-_-_-_-_-_-_-_-_-_-_
 conn = sqlite3.connect("users.db")
 crsr = conn.cursor()
 
-# ------------ End connection to the database -------------------------------
-
 # -_-_-_-_-_-_-_-_-_-_-_-  Main -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 
+#if GPIO.input(10) == GPIO.HIGH:
 print("Inicia proceso")
 
-#t2s("Bienvenido al Tecnologico de Monterrey, es usted estudiante o colaborador?")
-#data = recordAudio(3)
-data = "estudiante"
+iot.t2s("Bienvenido al Tecnologico de Monterrey, ¿es usted estudiante o colaborador?")
+data = iot.recordAudio(3)
+#data = "estudiante"
 
-cont = 1
-while cont:    
+i = 1
+while i:
+    # -_-_-_-_-_-_-_-_-_-_-_-  Casos posibles, estudiante/colaborador/externo  -_-_-_-_-_-_-_-_-_-_-_-      
     if ("estudiante") in data:
-        t2s("Dígame su matrícula sin la primer letra") #01625621
-        matAlu = recordAudio(5)
-        matAlu = matAlu.strip('., ')
-        print(f"Matricula:{matAlu}!")
+        iot.t2s("Dígame su matrícula sin la primer letra") #01 625 621
+        matAlu = iot.recordAudio(5)
+        matAlu = matAlu.replace(' ', '').replace(',','').replace('.','').replace('-','') # Limpieza de la data
         try:
-            if(len(matAlu) == 8 or len(matAlu) == 9):
-                matAlu = int(matAlu)
+            #matAlu = "01625621" # test
+            if(len(matAlu) == 8):
+                matAlu = "A" + matAlu
                 querySQL = "SELECT `matricula` FROM `users`;"
-                for row in crsr.execute(querySQL):
-                    print(type(row))
-                print(f"Texto = {matAlu}")
-                print(f"Nombre = {nombre}")
-                cont = 0
-                print("Se pudo!")
+                matriculas = []
+                # -_-_-_-_-_-_-_-_-_-_-_-  Obtenemos las matriculas en la database -_-_-_-_-_-_-_-_-_-_-_-
+                for i, row in enumerate(crsr.execute(querySQL)):
+                    matriculas.append(str(row).replace(',','').replace("'",'').replace('(','').replace(')',''))
+
+                # -_-_-_-_-_-_-_-_-_-_-_-  Buscamos si alguna coincide -_-_-_-_-_-_-_-_-_-_-_-
+                for i in range(len(matriculas)):
+                    if str(matriculas[i]) == matAlu:
+                        iot.t2s("Muchas gracias, que tenga buen dia!")
+                        print(f"Texto 1 = {matAlu}")
+                        i = 0
+                        # Aqui se me buggeaaa, se vuelve a repetir el loop, pero ps ya al rato veo
+                        # Procede a abrir las puertas
+                if (i == 1):
+                    iot.t2s("Matricula inválida")
+                    print(f"Texto = {matAlu}")
+                    i = 0
+                    # Procede a no dar el paso
             else:
-                t2s("Hubo un pequeño error, por favor")    
+                iot.t2s("Hubo un error, por favor")    
+                print(f"Texto 1= {matAlu}")
         except:
-            t2s("Hubo un pequeño error, por favor")
-        
+            iot.t2s("Hubo un error, por favor")
+            print(f"Texto 2= {matAlu}")
     elif ("colaborador") in data:
-        t2s("Bienvenido, digame su matricula")
-        matCol = recordAudio(7)
-        cont = 0
+        iot.t2s("Dígame su nomina sin la primer letra") #01 625 621
+        matCol = iot.recordAudio(5)
+        matCol = matCol.replace(' ', '').replace(',','').replace('.','').replace('-','') # Limpieza de la data
+        try:
+            #matCol = "01625621" # test
+            if(len(matCol) == 8):
+                matCol = "L" + matCol
+                querySQL = "SELECT `matricula` FROM `users`;"
+                matriculas = []
+                # -_-_-_-_-_-_-_-_-_-_-_-  Obtenemos las matriculas en la database -_-_-_-_-_-_-_-_-_-_-_-
+                for i, row in enumerate(crsr.execute(querySQL)):
+                    matriculas.append(str(row).replace(',','').replace("'",'').replace('(','').replace(')',''))
+
+                # -_-_-_-_-_-_-_-_-_-_-_-  Buscamos si alguna coincide -_-_-_-_-_-_-_-_-_-_-_-
+                for i in range(len(matriculas)):
+                    if str(matriculas[i]) == matCol:
+                        iot.t2s("Muchas gracias, que tenga buen dia!")
+                        print(f"Texto 1 = {matCol}")
+                        i = 0
+                        # Aqui se me buggeaaa, se vuelve a repetir el loop, pero ps ya al rato veo
+                        # Procede a abrir las puertas
+                if (i == 1):
+                    iot.t2s("Nomina inválida")
+                    print(f"Texto = {matCol}")
+                    i = 0
+                    # Procede a no dar el paso
+            else:
+                iot.t2s("Hubo un error, por favor")    
+                print(f"Texto 1= {matCol}")
+        except:
+            iot.t2s("Hubo un error, por favor")
+            print(f"Texto 2= {matCol}")
     elif "ver" in data:
         querySQL = "SELECT `matricula` FROM `users`;"
         for row in crsr.execute(querySQL):
             print(row)
         print(crsr.execute(querySQL))
-        t2s("Su query fue ejecutado correctamente!")
-        cont = 0
+        iot.t2s("Su query fue ejecutado correctamente!")
+        i = 0
     else:
         print(f"Data 2 = {data}")
-        t2s("No se pudo entender su respuesta, por favor repita.")
-        data = recordAudio(3) # Recibir audio
+        iot.t2s("No se pudo entender su respuesta, por favor repita.")
+        data = iot.recordAudio(3) # Recibir audio
 
-conn.close()
+conn.close() # Cerramos conexion con la database
     
     
