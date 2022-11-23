@@ -5,6 +5,7 @@
 # from time import sleep
 import methodsIOT as iot
 import sqlite3
+from datetime import datetime
 
 # General Configuration
 #GPIO.setwarnings(False)
@@ -18,22 +19,22 @@ crsr = conn.cursor()
 #if GPIO.input(10) == GPIO.HIGH:
 print("Inicia proceso")
 
-iot.t2s("Bienvenido al Tecnologico de Monterrey, ¿es usted estudiante o colaborador?")
-data = iot.recordAudio(3)
-#data = "estudiante"
+#iot.t2s("Bienvenido al Tecnologico de Monterrey, ¿es usted estudiante o colaborador?")
+#data = iot.recordAudio(3)
+data = "estudiante"
 
-i = 1
-while i:
+i = True
+while i == True:
     # -_-_-_-_-_-_-_-_-_-_-_-  Casos posibles, estudiante/colaborador/externo  -_-_-_-_-_-_-_-_-_-_-_-      
     if ("estudiante") in data:
-        iot.t2s("Dígame su matrícula sin la primer letra") #01 625 621
-        matAlu = iot.recordAudio(5)
-        matAlu = matAlu.replace(' ', '').replace(',','').replace('.','').replace('-','') # Limpieza de la data
+        #iot.t2s("Dígame su matrícula sin la primer letra") #01 625 621
+        #matAlu = iot.recordAudio(5)
+        #matAlu = matAlu.replace(' ', '').replace(',','').replace('.','').replace('-','') # Limpieza de la data
         try:
-            #matAlu = "01625621" # test
+            matAlu = "01625621" # test
             if(len(matAlu) == 8):
                 matAlu = "A" + matAlu
-                querySQL = "SELECT `matricula` FROM `users`;"
+                querySQL = "SELECT `matricula_id` FROM `users`;"
                 matriculas = []
                 # -_-_-_-_-_-_-_-_-_-_-_-  Obtenemos las matriculas en la database -_-_-_-_-_-_-_-_-_-_-_-
                 for i, row in enumerate(crsr.execute(querySQL)):
@@ -42,16 +43,24 @@ while i:
                 # -_-_-_-_-_-_-_-_-_-_-_-  Buscamos si alguna coincide -_-_-_-_-_-_-_-_-_-_-_-
                 for i in range(len(matriculas)):
                     if str(matriculas[i]) == matAlu:
-                        iot.t2s("Muchas gracias, que tenga buen dia!")
+                        #iot.t2s("Muchas gracias, que tenga buen dia!")
                         print(f"Texto 1 = {matAlu}")
-                        i = 0
-                        # Aqui se me buggeaaa, se vuelve a repetir el loop, pero ps ya al rato veo
-                        # Procede a abrir las puertas
+                        i = False
+                        #iot.t2s("Se supone que ya deben abrir las puertas en este punto, Viva Mexico siiiuuuuuuuu")
+                        
+                        # -_-_-_-_-_-_-_-_-_-_-  Insertamos la hora de acceso
+                        date_time = datetime.now().strftime("%m/%d/%Y_%H:%M")
+
+                        #querySQL = "INSERT INTO `access` (`id_Access`, `time`, `matricula_id`) values ('','"+ date_time +"','"+ matAlu +"');"
+                        querySQL = "INSERT INTO `access` (`id_Access`, `time`, `matricula_id`) values ('1','holaa','A01625621');"
+                        crsr.execute(querySQL)
+                        print("yeap")
+                        # Procede a abrir las puertas, encendemos led
                 if (i == 1):
                     iot.t2s("Matricula inválida")
                     print(f"Texto = {matAlu}")
-                    i = 0
-                    # Procede a no dar el paso
+                    i = False
+                    # Procede a no dar el paso, encender 2do led
             else:
                 iot.t2s("Hubo un error, por favor")    
                 print(f"Texto 1= {matAlu}")
@@ -77,13 +86,12 @@ while i:
                     if str(matriculas[i]) == matCol:
                         iot.t2s("Muchas gracias, que tenga buen dia!")
                         print(f"Texto 1 = {matCol}")
-                        i = 0
-                        # Aqui se me buggeaaa, se vuelve a repetir el loop, pero ps ya al rato veo
+                        i = False
                         # Procede a abrir las puertas
                 if (i == 1):
                     iot.t2s("Nomina inválida")
                     print(f"Texto = {matCol}")
-                    i = 0
+                    i = False
                     # Procede a no dar el paso
             else:
                 iot.t2s("Hubo un error, por favor")    
@@ -91,18 +99,12 @@ while i:
         except:
             iot.t2s("Hubo un error, por favor")
             print(f"Texto 2= {matCol}")
-    elif "ver" in data:
-        querySQL = "SELECT `matricula` FROM `users`;"
-        for row in crsr.execute(querySQL):
-            print(row)
-        print(crsr.execute(querySQL))
-        iot.t2s("Su query fue ejecutado correctamente!")
-        i = 0
+    elif () in data:
+        iot.t2s("Una disculpa, no es posible que usted ingrese por este lugar, favor de retornar y entrar por la entrada principal.")
+        i = False
     else:
-        print(f"Data 2 = {data}")
         iot.t2s("No se pudo entender su respuesta, por favor repita.")
         data = iot.recordAudio(3) # Recibir audio
-
 conn.close() # Cerramos conexion con la database
     
     

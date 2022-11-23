@@ -14,7 +14,7 @@
 3. [x] Speech2Text
 4. [x] Obtener data mediante el microfono
 5. [x] Obtener data mediante la camara
-- [ ] Se compara tal data en la database
+6. [x] Se compara tal data en la database
 - [ ] Programacion de las opciones
 - [ ] Flip flop
 - [ ] Face recognition
@@ -23,10 +23,10 @@
 1. [x] Eleccion de la database
 2. [x] Creacion del database en la raspberry
 3. [x] Tabla de credenciales
-4. [ ] Tabla de personas que entran (Vacia, solo parametros)
+4. [x] Tabla de personas que entran
 5. [ ] Guardar los datos en la database desde python
-- [ ] Enviar los datos al website
-- [ ] Mostrar los datos en el website
+6. [ ] Enviar los datos al website
+7. [ ] Mostrar los datos en el website
 
 ## Redes
 - [ ] Ejecucion del website en red local
