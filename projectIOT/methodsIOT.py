@@ -2,7 +2,7 @@ import whisper # Speech2text model from OpenAI
 import pyaudio # Record audio
 import wave # Record audio
 from gtts import gTTS # Text2speech
-from playsound import playsound # Run sound
+import pygame # Run sound
 
 
 # General configuration
@@ -52,7 +52,11 @@ def s2t():
 def t2s(msg):
     speech = gTTS(text = msg, lang = 'es')
     speech.save('computerAudio.mp3')
-    playsound('computerAudio.mp3')
+    pygame.mixer.init()
+    pygame.mixer.music.load("computerAudio.mp3")
+    pygame.mixer.music.play()
+    while pygame.mixer.music.get_busy() == True:
+        continue
 
 # -_-_-_-_-_-_-_-_-_-_-_-_ Get audio and apply s2t -_-_-_-_-_-_-_-_-_-_-_-_     
 def recordAudio(time):

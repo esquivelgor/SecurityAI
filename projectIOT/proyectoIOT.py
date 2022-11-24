@@ -1,70 +1,110 @@
-import RPi.GPIO as GPIO
-import board
-from flask import Flask, request, jsonify
-from picamera import PiCamera
-from time import sleep
+#import Rpi.GPIO as GPIO # Puertos raspberry
+#import board # Creo que no sirve pa' nada
+#from flask import Flask, request, jsonify # Web framework 
+#from picamera import PiCamera
+# from time import sleep
+import methodsIOT as iot
+import sqlite3
+from datetime import datetime
 
-app = Flask(__name__)
+# General Configuration
+#GPIO.setwarnings(False)
 
-# GPIO configuration
-GPIO.setwarnings(False)
+# -_-_-_-_-_-_-_-_-_-_-_- Connection to the database -_-_-_-_-_-_-_-_-_-_-_
+conn = sqlite3.connect("users.db")
+crsr = conn.cursor()
 
-# Funcion main de la programacion de la raspberry 
-def main(channel):
-    print("Proceso inicializado")
-    if GPIO.input(10) == GPIO.HIGH:
-        print("Procesos iniciados correctamente")
-        # 
-        if status == 'entrada':
-            GPIO.setmode(GPIO.BCM)
-            GPIO.setup(18, GPIO.OUT) # Led
-            GPIO.output(18, GPIO.HIGH) # Suposicion de que las puertas se abren
-            time.sleep(10) # Esperamos al que vehiculo entre
-            GPIO.output(18, GPIO.LOW) # Suposicion de que las puertas se cierran
-            return jsonify({"message": "Acceso aprovado"})
-            time.sleep(2.0)
-        elif status == 'photoresistor':
-            pin = 4
-            GPIO.setup(pin, GPIO.OUT)
-            GPIO.output(pin, GPIO.LOW)
-            GPIO.setup(pin, GPIO.IN)
-            if(GPIO.input(pin) == GPIO.LOW):
-                return jsonify({"message": "No hay luz!"})
+# -_-_-_-_-_-_-_-_-_-_-_-  Main -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+
+#if GPIO.input(10) == GPIO.HIGH:
+print("Inicia proceso")
+
+iot.t2s("Bienvenido al Tecnologico de Monterrey, ¿es usted estudiante o colaborador?")
+data = iot.recordAudio(3)
+#data = "estudiante"
+
+i = True
+while i == True:
+    # -_-_-_-_-_-_-_-_-_-_-_-  Casos posibles, estudiante/colaborador/externo  -_-_-_-_-_-_-_-_-_-_-_-      
+    if ("estudiante") in data:
+        iot.t2s("Dígame su matrícula sin la primer letra") #01 625 621
+        #matAlu = iot.recordAudio(5)
+        #matAlu = matAlu.replace(' ', '').replace(',','').replace('.','').replace('-','') # Limpieza de la data
+        try:
+            matAlu = "01625621" # test
+            if(len(matAlu) == 8):
+                matAlu = "A" + matAlu
+                querySQL = "SELECT `matricula_id` FROM `users`;"
+                matriculas = []
+                # -_-_-_-_-_-_-_-_-_-_-_-  Obtenemos las matriculas en la database -_-_-_-_-_-_-_-_-_-_-_-
+                for i, row in enumerate(crsr.execute(querySQL)):
+                    matriculas.append(str(row).replace(',','').replace("'",'').replace('(','').replace(')',''))
+
+                # -_-_-_-_-_-_-_-_-_-_-_-  Buscamos si alguna coincide -_-_-_-_-_-_-_-_-_-_-_-
+                for i in range(len(matriculas)):
+                    if str(matriculas[i]) == matAlu:
+                        #iot.t2s("Muchas gracias, que tenga buen dia!")
+                        print(f"Texto 1 = {matAlu}")
+                        i = False
+                        #iot.t2s("Se supone que ya deben abrir las puertas en este punto, Viva Mexico siiiuuuuuuuu")
+                        
+                        # -_-_-_-_-_-_-_-_-_-_-  Insertamos la hora de acceso
+                        date_time = datetime.now().strftime("%m/%d/%Y_%H:%M")
+
+                        #querySQL = "INSERT INTO `access` (`id_Access`, `time`, `matricula_id`) values ('','"+ date_time +"','"+ matAlu +"');"
+                        querySQL = "INSERT INTO `access` (`id_Access`, `time`, `matricula_id`) values ('1','holaa','A01625621');"
+                        crsr.execute(querySQL)
+                        print("yeap")
+                        # Procede a abrir las puertas, encendemos led
+                if (i == 1):
+                    iot.t2s("Matricula inválida")
+                    print(f"Texto = {matAlu}")
+                    i = False
+                    # Procede a no dar el paso, encender 2do led
             else:
-                return jsonify({"message": "Hay luz!"})
-        #elif status == 'picamera':
-        #    try:
-        #        while True:
-        #            now = datetime.now()
-        #            dt = now.strftime("%d%m%Y%H:%M:%S")
-        #            name = dt+".jpg"
-        #            camera.capture(name)
-        #            return jsonify({"message": "Se guardo la imagen!"})
-        #            storage.child(name).put(name)
-        #            return jsonify({"message": "Se envio la imagen!"})
-        #            os.remove(name)
-        #            sleep(10)
-        #    except:
-        #        camera.close()
-        else:
-            return jsonify({"message": "No es correcto"})
+                iot.t2s("Hubo un error, por favor")    
+                print(f"Texto 1= {matAlu}")
+        except:
+            iot.t2s("Hubo un error, por favor")
+            print(f"Texto 2= {matAlu}")
+    elif ("colaborador") in data:
+        iot.t2s("Dígame su nomina sin la primer letra") #01 625 621
+        matCol = iot.recordAudio(5)
+        matCol = matCol.replace(' ', '').replace(',','').replace('.','').replace('-','') # Limpieza de la data
+        try:
+            #matCol = "01625621" # test
+            if(len(matCol) == 8):
+                matCol = "L" + matCol
+                querySQL = "SELECT `matricula` FROM `users`;"
+                matriculas = []
+                # -_-_-_-_-_-_-_-_-_-_-_-  Obtenemos las matriculas en la database -_-_-_-_-_-_-_-_-_-_-_-
+                for i, row in enumerate(crsr.execute(querySQL)):
+                    matriculas.append(str(row).replace(',','').replace("'",'').replace('(','').replace(')',''))
 
-# Inicializamos procesos
-while True:
-    # Si el boton es presionado comenzamos a ejecutar el sistema
-    # Button https://raspberrypihq.com/use-a-push-button-with-raspberry-pi-gpio/
-    GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
-    GPIO.setup(10, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Set pin 10 to be an input pin and set initial value to be pulled low (off)
-
-    GPIO.add_event_detect(10,GPIO.RISING,callback=main) # Setup event on pin 10 rising edge
-
-    message = input("Press enter to quit\n\n") # Run until someone presses enter
-    time.sleep(1)
-    GPIO.cleanup()
+                # -_-_-_-_-_-_-_-_-_-_-_-  Buscamos si alguna coincide -_-_-_-_-_-_-_-_-_-_-_-
+                for i in range(len(matriculas)):
+                    if str(matriculas[i]) == matCol:
+                        iot.t2s("Muchas gracias, que tenga buen dia!")
+                        print(f"Texto 1 = {matCol}")
+                        i = False
+                        # Procede a abrir las puertas
+                if (i == 1):
+                    iot.t2s("Nomina inválida")
+                    print(f"Texto = {matCol}")
+                    i = False
+                    # Procede a no dar el paso
+            else:
+                iot.t2s("Hubo un error, por favor")    
+                print(f"Texto 1= {matCol}")
+        except:
+            iot.t2s("Hubo un error, por favor")
+            print(f"Texto 2= {matCol}")
+    elif () in data:
+        iot.t2s("Una disculpa, no es posible que usted ingrese por este lugar, favor de retornar y entrar por la entrada principal.")
+        i = False
+    else:
+        iot.t2s("No se pudo entender su respuesta, por favor repita.")
+        data = iot.recordAudio(3) # Recibir audio
+conn.close() # Cerramos conexion con la database
     
     
-
-# Application
-@app.route('/', methods=['GET'])
-def raspberryWeb():
-    status = request.args.get('status')
