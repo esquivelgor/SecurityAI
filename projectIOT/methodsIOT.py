@@ -68,3 +68,11 @@ def recordAudio(time):
     getAudio(time)
     data = s2t()
     return data
+
+# -_-_-_-_-_-_-_-_-_-_-_-_  -_-_-_-_-_-_-_-_-_-_-_-_
+def capture_photo(file_capture, text):
+    camera.annotate_text = text
+    sleep(2)
+    camera.capture(file_capture)
+    print("\r\nImage Captured! \r\n")
+    
