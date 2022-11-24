@@ -1,12 +1,17 @@
-import whisper # Speech2text model from OpenAI
+#import whisper # Speech2text model from OpenAI
 import pyaudio # Record audio
 import wave # Record audio
 from gtts import gTTS # Text2speech
 import pygame # Run sound
-
+from picamera import PiCamera
 
 # General configuration
-model = whisper.load_model("base")
+#model = whisper.load_model("base")
+
+# Camera configuration
+camera = PiCamera()
+camera.resolution = (640, 480)
+camera.framerate = 15
 
 # -_-_-_-_-_-_-_-_-_-_-_-_ Method to get the audio -_-_-_-_-_-_-_-_-_-_-_-_
 def getAudio(time):

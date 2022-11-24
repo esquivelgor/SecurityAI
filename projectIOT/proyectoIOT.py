@@ -1,14 +1,15 @@
-#import Rpi.GPIO as GPIO # Puertos raspberry
-#import board # Creo que no sirve pa' nada
+import Rpi.GPIO as GPIO # Puertos raspberry
 #from flask import Flask, request, jsonify # Web framework 
-#from picamera import PiCamera
-# from time import sleep
+from time import sleep
 import methodsIOT as iot
 import sqlite3
 from datetime import datetime
 
 # General Configuration
-#GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+GPIO.setup(18, GPIO.OUT)
+GPIO.setup(15, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 # -_-_-_-_-_-_-_-_-_-_-_- Connection to the database -_-_-_-_-_-_-_-_-_-_-_
 conn = sqlite3.connect("users.db")
@@ -20,8 +21,9 @@ crsr = conn.cursor()
 print("Inicia proceso")
 
 iot.t2s("Bienvenido al Tecnologico de Monterrey, ¿es usted estudiante o colaborador?")
-data = iot.recordAudio(3)
-#data = "estudiante"
+#data = iot.recordAudio(3)
+data = "estudiante"
+print("Decimos estudiante")
 
 i = True
 while i == True:
@@ -30,6 +32,7 @@ while i == True:
         iot.t2s("Dígame su matrícula sin la primer letra") #01 625 621
         #matAlu = iot.recordAudio(5)
         #matAlu = matAlu.replace(' ', '').replace(',','').replace('.','').replace('-','') # Limpieza de la data
+        print("Decimos estudiante")
         try:
             matAlu = "01625621" # test
             if(len(matAlu) == 8):
