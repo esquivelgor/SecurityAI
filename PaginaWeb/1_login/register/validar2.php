@@ -5,7 +5,7 @@ $contraseña=$_POST["contraseña"];
 
 $conexion = mysqli_connect("localhost","root","","login");
 
-$insertar= "INSERT INTO usuarios VALUES (NULL,'$usuario', '$contraseña')";
+$insertar= "INSERT INTO admins VALUES (NULL,'$usuario', '$contraseña')";
 
 $query = mysqli_query($conexion,$insertar);
 
