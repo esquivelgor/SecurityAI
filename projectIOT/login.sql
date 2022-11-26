@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.0.4deb2+deb11u1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 26-11-2022 a las 01:58:46
--- Versión del servidor: 10.4.25-MariaDB
--- Versión de PHP: 8.1.10
+-- Host: localhost:3306
+-- Generation Time: Nov 26, 2022 at 10:58 AM
+-- Server version: 10.5.15-MariaDB-0+deb11u1
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `usuarios`
+-- Database: `login`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `accesos`
+-- Table structure for table `accesos`
 --
 
 CREATE TABLE `accesos` (
@@ -36,7 +36,29 @@ CREATE TABLE `accesos` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `memorybank`
+-- Table structure for table `admins`
+--
+
+CREATE TABLE `admins` (
+  `id` int(11) NOT NULL,
+  `usuario` text NOT NULL,
+  `contraseña` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `admins`
+--
+
+INSERT INTO `admins` (`id`, `usuario`, `contraseña`) VALUES
+(1, 'Moises', 1010),
+(2, 'Memo', 2828),
+(3, 'Paola', 2000),
+(2, 'Feliz', 6969);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `memorybank`
 --
 
 CREATE TABLE `memorybank` (
@@ -48,7 +70,7 @@ CREATE TABLE `memorybank` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuarios`
+-- Table structure for table `usuarios`
 --
 
 CREATE TABLE `usuarios` (
@@ -59,41 +81,57 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Índices para tablas volcadas
+-- Indexes for dumped tables
 --
 
 --
--- Indices de la tabla `accesos`
+-- Indexes for table `accesos`
 --
 ALTER TABLE `accesos`
   ADD PRIMARY KEY (`ID_Registro`),
   ADD KEY `ID_Usuario` (`ID_Usuario`);
 
 --
--- Indices de la tabla `memorybank`
+-- Indexes for table `admins`
+--
+ALTER TABLE `admins`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `memorybank`
 --
 ALTER TABLE `memorybank`
   ADD PRIMARY KEY (`ID_Imagen`),
   ADD KEY `ID_Usuario` (`ID_Usuario`);
 
 --
--- Indices de la tabla `usuarios`
+-- Indexes for table `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`ID_Usuario`);
 
 --
--- Restricciones para tablas volcadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- Filtros para la tabla `accesos`
+-- AUTO_INCREMENT for table `admins`
+--
+ALTER TABLE `admins`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `accesos`
 --
 ALTER TABLE `accesos`
   ADD CONSTRAINT `accesos_ibfk_1` FOREIGN KEY (`ID_Usuario`) REFERENCES `usuarios` (`ID_Usuario`);
 
 --
--- Filtros para la tabla `memorybank`
+-- Constraints for table `memorybank`
 --
 ALTER TABLE `memorybank`
   ADD CONSTRAINT `memorybank_ibfk_1` FOREIGN KEY (`ID_Usuario`) REFERENCES `usuarios` (`ID_Usuario`);
