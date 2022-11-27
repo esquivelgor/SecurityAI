@@ -19,6 +19,7 @@ GPIO.setup(15, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Boton
 n = 2 # Leds time 
 data = "estudiante" # 1st choice
 matAlu = "01625621" # 2nd choice
+matriculas = []
 
 # -_-_-_-_-_-_-_-_-_-_-_- Connection to the database -_-_-_-_-_-_-_-_-_-_-_
 
@@ -54,25 +55,26 @@ while True:
     #                    matAlu = "A" + matAlu
                         query = "SELECT `ID_Usuario` FROM `usuarios` WHERE `Tipo_Usuario` = 'Estudiante';"
 
-                        # -_-_-_-_-_-_-_-_-_-_-_-  Obtenemos las matriculas en la database -_-_-_-_-_-_-_-_-_-_-_-
+                        # -_-_-_-_-_-_-_-_-_-_-_-  Get matriculas from database -_-_-_-_-_-_-_-_-_-_-_-
                         crsr.execute(query)
-                        matriculas = list(crsr.fetchall())
-                        print(matriculas)
-                        print(type(matriculas[0]))
-                        for i in matriculas:
-                            str(i)
-                            i.replace(',','').replace("'",'').replace('(','').replace(')','')
-                        print(matriculas)  
-    #                    # -_-_-_-_-_-_-_-_-_-_-_-  Buscamos si alguna coincide -_-_-_-_-_-_-_-_-_-_-_-
-    #                    for i in range(len(matriculas)):
-    #                        if str(matriculas[i]) == matAlu:
-    #                            #iot.t2s("Muchas gracias, que tenga buen dia!")
-    #                            print(f"Texto 1 = {matAlu}")
-                        i = False
+                        matriculasTup = list(crsr.fetchall())
+                        # --- Change format ---
+                        for i in matriculasTup:
+                            matriculas.append(str(i))
+                        # --- Clean data ---
+                        for i, val in enumerate(matriculas):
+                            matriculas[i] = "0" + val.replace(',','').replace("'",'').replace('(','').replace(')','')
 
+                        print(matriculas)  
+                        
+                        # -_-_-_-_-_-_-_-_-_-_-_-  Buscamos si alguna coincide -_-_-_-_-_-_-_-_-_-_-_-
+                        for i in range(len(matriculas)):
+                            if str(matriculas[i]) == matAlu:
+                                print("Muchas gracias, que tenga buen dia!")
+                                i = False
                                 # -_-_-_-_-_-_-_-_-_-_- Damos acceso -_-_-_-_-_-_-_-_-_-_-                                    
-                        print(f"Acceso aprovado, se mantendra abierto por {n} segundos")
-                        iot.ledOn(16, n)
+                                print(f"Acceso aprovado, se mantendra abierto por {n} segundos")
+                                iot.ledOn(16, n)
                                 # -_-_-_-_-_-_-_-_-_- Foto de seguridad -_-_-_-_-_-_-_-_-_-_- 
                                 #date = datetime.datetime.now().strftime('%m-%d-%Y_%H.%M.%S')
                                 #capture_img = '/home/esquivelg/Documents/pictures/' + date + '.jpg'
