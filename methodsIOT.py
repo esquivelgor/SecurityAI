@@ -1,13 +1,14 @@
 import RPi.GPIO as GPIO
+import pygame 
 from time import sleep
+from gtts import gTTS
+
 #import whisper # Speech2text model from OpenAI
 #import pyaudio # Record audio
 #import wave # Record audio
-#from gtts import gTTS # Text2speech
-#import pygame # Run sound
 #from picamera import PiCamera
-#
-## General configuration
+
+# General configuration
 ##model = whisper.load_model("base")
 #
 ## Camera configuration
@@ -54,17 +55,17 @@ from time import sleep
 #def s2t():
 #    result = model.transcribe("output.wav", fp16=False, language='Spanish')    
 #    return(result["text"].lower())
-#
-## -_-_-_-_-_-_-_-_-_-_-_-_ Text to speech method -_-_-_-_-_-_-_-_-_-_-_-_
-#def t2s(msg):
-#    speech = gTTS(text = msg, lang = 'es')
-#    speech.save('computerAudio.mp3')
-#    pygame.mixer.init()
-#    pygame.mixer.music.load("computerAudio.mp3")
-#    pygame.mixer.music.play()
-#    while pygame.mixer.music.get_busy() == True:
-#        continue
-#
+
+# -_-_-_-_-_-_-_-_-_-_-_-_ Text to speech method -_-_-_-_-_-_-_-_-_-_-_-_
+def t2s(msg):
+    speech = gTTS(text = msg, lang = 'es')
+    speech.save('computerAudio.mp3')
+    pygame.mixer.init()
+    pygame.mixer.music.load("computerAudio.mp3")
+    pygame.mixer.music.play()
+    while pygame.mixer.music.get_busy() == True:
+        continue
+
 ## -_-_-_-_-_-_-_-_-_-_-_-_ Get audio and apply s2t -_-_-_-_-_-_-_-_-_-_-_-_     
 #def recordAudio(time):
 #    getAudio(time)
@@ -80,5 +81,5 @@ from time import sleep
 
 def ledOn(pin, time):
     GPIO.output(16, GPIO.HIGH)
-    sleep(n)
+    sleep(time)
     GPIO.output(16, GPIO.LOW)
