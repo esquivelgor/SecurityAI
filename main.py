@@ -73,8 +73,8 @@ while True:
                                 iot.ledOn(16, n)
                                 # --- Foto de seguridad --- 
                                 date = datetime.now().strftime('%Hh-%Mm-%d-%m-%Y')
-                                capture_img = '/var/www/html/securitysys/gammp/img/' + date + '.jpg'
-                                iot.capture_photo(capture_img, date)
+                                capture_img = './' + date + '.jpg'
+                                iot.capture_photo(capture_img)
                                 
                                 # --- Registro de acceso --- 
                                 querySQL = "INSERT INTO accesos (Acceso, ID_Usuario) values (now() , '"+ matAlu +"')"

@@ -11,11 +11,6 @@ from picamera import PiCamera
 # General configuration
 ##model = whisper.load_model("base")
 
-# --- Camera configuration ---
-camera = PiCamera()
-camera.resolution = (640, 480)
-camera.framerate = 15
-
 ## -_-_-_-_-_-_-_-_-_-_-_-_ Method to get the audio -_-_-_-_-_-_-_-_-_-_-_-_
 #def getAudio(time):
 #    FRAME_PER_BUFFER = 3200
@@ -73,13 +68,17 @@ def t2s(msg):
 #    return data
 
 # -_-_-_-_-_-_-_-_-_-_-_-_ Take picture -_-_-_-_-_-_-_-_-_-_-_-_
-def capture_photo(file_capture, text):
-    camera.annotate_text = text
-    camera.start_preview()
+def capture_photo(file_capture):
+    # --- Camera configuration ---
+    camera = PiCamera()
+    camera.resolution = (640, 480)
+    camera.framerate = 15
+    #camera.start_preview()
     sleep(2)
     camera.capture(file_capture)
     print("\r\nImage Captured! \r\n")
-    camera.stop_preview()
+    #camera.stop_preview()
+    camera.close()
 
 # -_-_-_-_-_-_-_-_-_-_-_-_ Leds  -_-_-_-_-_-_-_-_-_-_-_-_
 def ledOn(pin, time):
