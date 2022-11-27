@@ -1,8 +1,8 @@
 import RPi.GPIO as GPIO # Puertos raspberry 
 #from picamera import PiCamera
 import methodsIOT as iot
-#from datetime import datetime
 import mysql.connector
+from datetime import datetime
 from mysql.connector import errorcode
 
 # -_-_-_-_-_-_-_-_-_-_-_- General Configuration -_-_-_-_-_-_-_-_-_-_-_-
@@ -35,7 +35,7 @@ while True:
     # --- Variables ---
     n = 2 # Leds time 
     data = "estudiante" # 1st choice
-    matAlu = "01625641" # 2nd choice
+    matAlu = "01625621" # 2nd choice
     matriculas = []
 
     if GPIO.input(15) == GPIO.HIGH:
@@ -72,15 +72,16 @@ while True:
                                 # -_-_-_-_-_-_-_-_-_-_- Damos acceso -_-_-_-_-_-_-_-_-_-_-                                    
                                 print(f"Acceso aprovado, se mantendra abierto por {n} segundos")
                                 iot.ledOn(16, n)
-                                # -_-_-_-_-_-_-_-_-_- Foto de seguridad -_-_-_-_-_-_-_-_-_-_- 
-                                #date = datetime.datetime.now().strftime('%m-%d-%Y_%H.%M.%S')
+                                # --- Foto de seguridad --- 
+                                date = datetime.now().strftime('%Hh-%Mm-%d-%m-%Y')
                                 #capture_img = '/home/esquivelg/Documents/pictures/' + date + '.jpg'
                                 #capture_photo(capture_img, date)
                                 
-                                # -_-_-_-_-_-_-_-_-_-  Registro de acceso -_-_-_-_-_-_-_-_-_-_- 
-    #                            querySQL = "INSERT INTO `access` (`id_Access`, `time`, `matricula_id`) values ('','"+ date_time +"','"+ matAlu +"');"
-    #                            querySQL = "INSERT INTO `access` (`id_Access`, `time`, `matricula_id`) values ('1','holaa','A01625621');"
-    #                            crsr.execute(querySQL)
+                                # --- Registro de acceso --- 
+                                querySQL = "INSERT INTO accesos (Acceso, ID_Usuario) values (now() , '"+ matAlu +"')"
+                                crsr.execute(querySQL)
+                                db.commit()
+
                                 print("Proceso estudiante finalizado")
                         # --- Caso en que no hay coincidencias --- 
                         if (loop == True):
@@ -91,9 +92,9 @@ while True:
                         print("Hubo un error, por favor")    
                         print(f"Error en 3er if = {matAlu}")
                         iot.ledOn(26, n)
-                except:
+                except Exception as err:
                     print("Hubo un error, por favor")
-                    print(f"Error en tryCatch = {matAlu}")
+                    print(f"Unexpected {err=}, {type(err)=}")
                     iot.ledOn(26, n)
             elif ("colaborador") in data:
                 print("Camino colaborador")
