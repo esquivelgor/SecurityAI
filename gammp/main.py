@@ -67,9 +67,10 @@ while True:
                                 #iot.t2s(f"Acceso aprovado, se mantendra abierto por {n}")
                                 iot.ledOn(16, n)
                                 # -_-_-_-_-_-_-_-_-_- Foto de seguridad -_-_-_-_-_-_-_-_-_-_- 
-
-    #                            date_time = datetime.now().strftime("%m/%d/%Y_%H:%M")
-    #
+                                #date = datetime.datetime.now().strftime('%m-%d-%Y_%H.%M.%S')
+                                #capture_img = '/home/esquivelg/Documents/pictures/' + date + '.jpg'
+                                #capture_photo(capture_img, date)
+                                
                                 # -_-_-_-_-_-_-_-_-_-  Registro de acceso -_-_-_-_-_-_-_-_-_-_- 
     #                            querySQL = "INSERT INTO `access` (`id_Access`, `time`, `matricula_id`) values ('','"+ date_time +"','"+ matAlu +"');"
     #                            querySQL = "INSERT INTO `access` (`id_Access`, `time`, `matricula_id`) values ('1','holaa','A01625621');"
