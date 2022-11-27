@@ -15,13 +15,7 @@ GPIO.setup(16, GPIO.OUT) # Led blanco
 GPIO.setup(26, GPIO.OUT) # Led Rojo
 GPIO.setup(15, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Boton
 
-# --- Variables ---
-n = 2 # Leds time 
-data = "estudiante" # 1st choice
-matAlu = "01625621" # 2nd choice
-matriculas = []
-
-# -_-_-_-_-_-_-_-_-_-_-_- Connection to the database -_-_-_-_-_-_-_-_-_-_-_
+# --- Connection to the database ---
 
 try:
     db = mysql.connector.connect(user='esquivelg', password='39932409', database='login')
@@ -38,6 +32,13 @@ crsr = db.cursor()
 # -_-_-_-_-_-_-_-_-_-_-_-  Main -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 
 while True:
+
+    # --- Variables ---
+    n = 2 # Leds time 
+    data = "estudiante" # 1st choice
+    matAlu = "01625621" # 2nd choice
+    matriculas = []
+
     if GPIO.input(15) == GPIO.HIGH:
         print("Inicia proceso")
         print("Bienvenido al Tecnologico de Monterrey, ¿es usted estudiante o colaborador?")
