@@ -1,7 +1,6 @@
 import RPi.GPIO as GPIO # Puertos raspberry 
 #from picamera import PiCamera
 import methodsIOT as iot
-#import sqlite3
 #from datetime import datetime
 import mysql.connector
 from mysql.connector import errorcode
@@ -36,7 +35,7 @@ while True:
     # --- Variables ---
     n = 2 # Leds time 
     data = "estudiante" # 1st choice
-    matAlu = "01625621" # 2nd choice
+    matAlu = "01625641" # 2nd choice
     matriculas = []
 
     if GPIO.input(15) == GPIO.HIGH:
@@ -44,8 +43,8 @@ while True:
         print("Bienvenido al Tecnologico de Monterrey, ¿es usted estudiante o colaborador?")
     #    #data = iot.recordAudio(3)
 
-        i = True
-        while i == True:
+        loop = True
+        while loop == True:
             # -_-_-_-_-_-_-_-_-_-_-_-  Casos posibles, estudiante/colaborador/externo  -_-_-_-_-_-_-_-_-_-_-_-      
             if ("estudiante") in data:
                 print("Dígame su matrícula sin la primer letra") # 01 62 56 21
@@ -53,7 +52,6 @@ while True:
     #            #matAlu = matAlu.replace(' ', '').replace(',','').replace('.','').replace('-','') # Limpieza de la data
                 try:
                     if(len(matAlu) == 8):
-    #                    matAlu = "A" + matAlu
                         query = "SELECT `ID_Usuario` FROM `usuarios` WHERE `Tipo_Usuario` = 'Estudiante';"
 
                         # -_-_-_-_-_-_-_-_-_-_-_-  Get matriculas from database -_-_-_-_-_-_-_-_-_-_-_-
@@ -65,14 +63,12 @@ while True:
                         # --- Clean data ---
                         for i, val in enumerate(matriculas):
                             matriculas[i] = "0" + val.replace(',','').replace("'",'').replace('(','').replace(')','')
-
-                        print(matriculas)  
                         
                         # -_-_-_-_-_-_-_-_-_-_-_-  Buscamos si alguna coincide -_-_-_-_-_-_-_-_-_-_-_-
                         for i in range(len(matriculas)):
                             if str(matriculas[i]) == matAlu:
                                 print("Muchas gracias, que tenga buen dia!")
-                                i = False
+                                loop = False
                                 # -_-_-_-_-_-_-_-_-_-_- Damos acceso -_-_-_-_-_-_-_-_-_-_-                                    
                                 print(f"Acceso aprovado, se mantendra abierto por {n} segundos")
                                 iot.ledOn(16, n)
@@ -85,12 +81,12 @@ while True:
     #                            querySQL = "INSERT INTO `access` (`id_Access`, `time`, `matricula_id`) values ('','"+ date_time +"','"+ matAlu +"');"
     #                            querySQL = "INSERT INTO `access` (`id_Access`, `time`, `matricula_id`) values ('1','holaa','A01625621');"
     #                            crsr.execute(querySQL)
-                        print("Proceso estudiante finalizado")
-                        if (i == True):
-                            print("Matricula inválida")
-                            print(f"Proceso finalizado alumno = {matAlu}")
+                                print("Proceso estudiante finalizado")
+                        # --- Caso en que no hay coincidencias --- 
+                        if (loop == True):
+                            print("Matricula actualmente inválida")
                             iot.ledOn(26, n)
-                            i = False
+                            loop = False
                     else:
                         print("Hubo un error, por favor")    
                         print(f"Error en 3er if = {matAlu}")
@@ -103,7 +99,7 @@ while True:
                 print("Camino colaborador")
             elif ("externo") in data:
                 print("Una disculpa, no es posible que usted ingrese por este lugar, favor de retornar y entrar por la entrada principal.")
-                i = False
+                loop = False
                 iot.ledOn(26, n)
             else:
                 print("No se pudo entender su respuesta, por favor repita.")

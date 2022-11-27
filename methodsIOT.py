@@ -80,6 +80,6 @@ def t2s(msg):
 #    print("\r\nImage Captured! \r\n")
 
 def ledOn(pin, time):
-    GPIO.output(16, GPIO.HIGH)
+    GPIO.output(pin, GPIO.HIGH)
     sleep(time)
-    GPIO.output(16, GPIO.LOW)
+    GPIO.output(pin, GPIO.LOW)
