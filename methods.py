@@ -2,20 +2,20 @@ import RPi.GPIO as GPIO
 import pygame 
 from time import sleep
 from gtts import gTTS
+from picamera import PiCamera
 
 #import whisper # Speech2text model from OpenAI
 #import pyaudio # Record audio
 #import wave # Record audio
-#from picamera import PiCamera
 
 # General configuration
 ##model = whisper.load_model("base")
-#
-## Camera configuration
-#camera = PiCamera()
-#camera.resolution = (640, 480)
-#camera.framerate = 15
-#
+
+# --- Camera configuration ---
+camera = PiCamera()
+camera.resolution = (640, 480)
+camera.framerate = 15
+
 ## -_-_-_-_-_-_-_-_-_-_-_-_ Method to get the audio -_-_-_-_-_-_-_-_-_-_-_-_
 #def getAudio(time):
 #    FRAME_PER_BUFFER = 3200
@@ -66,19 +66,22 @@ def t2s(msg):
     while pygame.mixer.music.get_busy() == True:
         continue
 
-## -_-_-_-_-_-_-_-_-_-_-_-_ Get audio and apply s2t -_-_-_-_-_-_-_-_-_-_-_-_     
+# -_-_-_-_-_-_-_-_-_-_-_-_ Get audio and apply s2t -_-_-_-_-_-_-_-_-_-_-_-_     
 #def recordAudio(time):
 #    getAudio(time)
 #    data = s2t()
 #    return data
-#
-## -_-_-_-_-_-_-_-_-_-_-_-_  -_-_-_-_-_-_-_-_-_-_-_-_
-#def capture_photo(file_capture, text):
-#    camera.annotate_text = text
-#    sleep(2)
-#    camera.capture(file_capture)
-#    print("\r\nImage Captured! \r\n")
 
+# -_-_-_-_-_-_-_-_-_-_-_-_ Take picture -_-_-_-_-_-_-_-_-_-_-_-_
+def capture_photo(file_capture, text):
+    camera.annotate_text = text
+    camera.start_preview()
+    sleep(2)
+    camera.capture(file_capture)
+    print("\r\nImage Captured! \r\n")
+    camera.stop_preview()
+
+# -_-_-_-_-_-_-_-_-_-_-_-_ Leds  -_-_-_-_-_-_-_-_-_-_-_-_
 def ledOn(pin, time):
     GPIO.output(pin, GPIO.HIGH)
     sleep(time)

@@ -1,6 +1,5 @@
-import RPi.GPIO as GPIO # Puertos raspberry 
-#from picamera import PiCamera
-import methodsIOT as iot
+import RPi.GPIO as GPIO
+import methods as iot
 import mysql.connector
 from datetime import datetime
 from mysql.connector import errorcode
@@ -74,8 +73,8 @@ while True:
                                 iot.ledOn(16, n)
                                 # --- Foto de seguridad --- 
                                 date = datetime.now().strftime('%Hh-%Mm-%d-%m-%Y')
-                                #capture_img = '/home/esquivelg/Documents/pictures/' + date + '.jpg'
-                                #capture_photo(capture_img, date)
+                                capture_img = '/var/www/html/securitysys/gammp/img/' + date + '.jpg'
+                                iot.capture_photo(capture_img, date)
                                 
                                 # --- Registro de acceso --- 
                                 querySQL = "INSERT INTO accesos (Acceso, ID_Usuario) values (now() , '"+ matAlu +"')"
