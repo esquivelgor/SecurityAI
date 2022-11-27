@@ -61,11 +61,11 @@ while True:
     #                        if str(matriculas[i]) == matAlu:
     #                            #iot.t2s("Muchas gracias, que tenga buen dia!")
     #                            print(f"Texto 1 = {matAlu}")
-    #                            i = False
+                        i = False
 
                                 # -_-_-_-_-_-_-_-_-_-_- Damos acceso -_-_-_-_-_-_-_-_-_-_-                                    
                                 #iot.t2s(f"Acceso aprovado, se mantendra abierto por {n}")
-                                iot.ledOn(16, n)
+                        iot.ledOn(16, n)
                                 # -_-_-_-_-_-_-_-_-_- Foto de seguridad -_-_-_-_-_-_-_-_-_-_- 
                                 #date = datetime.datetime.now().strftime('%m-%d-%Y_%H.%M.%S')
                                 #capture_img = '/home/esquivelg/Documents/pictures/' + date + '.jpg'
@@ -75,20 +75,20 @@ while True:
     #                            querySQL = "INSERT INTO `access` (`id_Access`, `time`, `matricula_id`) values ('','"+ date_time +"','"+ matAlu +"');"
     #                            querySQL = "INSERT INTO `access` (`id_Access`, `time`, `matricula_id`) values ('1','holaa','A01625621');"
     #                            crsr.execute(querySQL)
-                                print("Proceso estudiante finalizado")
-    #                    if (i == 1):
-    #                        iot.t2s("Matricula inválida")
-    #                        print(f"Texto = {matAlu}")
-    #                        i = False
+                        print("Proceso estudiante finalizado")
+                        if (i == True):
+                            #iot.t2s("Matricula inválida")
+                            print(f"Proceso finalizado alumno = {matAlu}")
                             # Procede a no dar el paso, encender 2do led
                             iot.ledOn(26, n)
+                            i = False
                     else:
     #                    iot.t2s("Hubo un error, por favor")    
-                        print(f"Texto 1= {matAlu}")
+                        print(f"Error en 3er if = {matAlu}")
                         iot.ledOn(26, n)
                 except:
     #                iot.t2s("Hubo un error, por favor")
-    #                print(f"Texto 2= {matAlu}")
+                    print(f"Error en tryCatch = {matAlu}")
                     iot.ledOn(26, n)
             elif ("colaborador") in data:
                 print("Camino colaborador")
@@ -99,3 +99,5 @@ while True:
             else:
     #            iot.t2s("No se pudo entender su respuesta, por favor repita.")
     #            data = iot.recordAudio(3) # Recibir audio
+                print(f"Error en 2do if = {matAlu}")
+                iot.ledOn(26, n)
