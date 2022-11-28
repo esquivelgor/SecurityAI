@@ -72,9 +72,8 @@ while True:
                                 # --- Upload the picture ---
                                 try:
                                     binPic = iot.convertToBinaryData("./img.jpg")
-                                    query = "INSERT INTO memorybank (Imagen, ID_Usuario) VALUES ('%s','"+ matAlu +"')"
-                                    crsr.execute(query, (binPic))
-                                    db.commit()
+                                    query = "INSERT INTO memorybank (Imagen, ID_Usuario) VALUES (%s,%s)" 
+                                    crsr.execute(query, (binPic, matAlu))
                                 except mysql.connector.Error as error:
                                     print("Failed inserting BLOB data into MySQL table {}".format(error))
 
