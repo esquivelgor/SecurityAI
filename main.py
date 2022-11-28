@@ -1,7 +1,6 @@
 import RPi.GPIO as GPIO
 import methods as iot
 import mysql.connector
-from datetime import datetime
 from mysql.connector import errorcode
 
 # -_-_-_-_-_-_-_-_-_-_-_- General Configuration -_-_-_-_-_-_-_-_-_-_-_-
@@ -66,21 +65,28 @@ while True:
                         # -_-_-_-_-_-_-_-_-_-_-_-  Buscamos si alguna coincide -_-_-_-_-_-_-_-_-_-_-_-
                         for i in range(len(matriculas)):
                             if str(matriculas[i]) == matAlu:
-                                print("Muchas gracias, que tenga buen dia!")
-                                loop = False
-                                # -_-_-_-_-_-_-_-_-_-_- Damos acceso -_-_-_-_-_-_-_-_-_-_-                                    
-                                print(f"Acceso aprovado, se mantendra abierto por {n} segundos")
-                                iot.ledOn(16, n)
-                                # --- Foto de seguridad --- 
-                                date = datetime.now().strftime('%Hh-%Mm-%d-%m-%Y')
-                                capture_img = './' + date + '.jpg'
+                                # --- Security picture --- 
+                                capture_img = './img.jpg'
                                 iot.capture_photo(capture_img)
-                                
+
+                                # --- Upload the picture ---
+                                try:
+                                    binPic = iot.convertToBinaryData("./img.jpg")
+                                    query = "INSERT INTO memorybank (Imagen, ID_Usuario) VALUES ('%s','"+ matAlu +"')"
+                                    crsr.execute(query, (binPic))
+                                    db.commit()
+                                except mysql.connector.Error as error:
+                                    print("Failed inserting BLOB data into MySQL table {}".format(error))
+
                                 # --- Registro de acceso --- 
                                 querySQL = "INSERT INTO accesos (Acceso, ID_Usuario) values (now() , '"+ matAlu +"')"
                                 crsr.execute(querySQL)
                                 db.commit()
 
+                                # -_-_-_-_-_-_-_-_-_-_- Damos acceso -_-_-_-_-_-_-_-_-_-_-                                    
+                                print(f"Acceso aprovado, se mantendra abierto por {n} segundos")
+                                iot.ledOn(16, n)
+                                loop = False
                                 print("Proceso estudiante finalizado")
                         # --- Caso en que no hay coincidencias --- 
                         if (loop == True):
@@ -106,4 +112,5 @@ while True:
     #            data = iot.recordAudio(3) # Recibir audio
                 print(f"Error en 2do if = {matAlu}")
                 iot.ledOn(26, n)
+crsr.close()
 db.close()

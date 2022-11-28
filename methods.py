@@ -69,15 +69,12 @@ def t2s(msg):
 
 # -_-_-_-_-_-_-_-_-_-_-_-_ Take picture -_-_-_-_-_-_-_-_-_-_-_-_
 def capture_photo(file_capture):
-    # --- Camera configuration ---
     camera = PiCamera()
     camera.resolution = (640, 480)
     camera.framerate = 15
-    #camera.start_preview()
     sleep(2)
     camera.capture(file_capture)
     print("\r\nImage Captured! \r\n")
-    #camera.stop_preview()
     camera.close()
 
 # -_-_-_-_-_-_-_-_-_-_-_-_ Leds  -_-_-_-_-_-_-_-_-_-_-_-_
@@ -85,3 +82,9 @@ def ledOn(pin, time):
     GPIO.output(pin, GPIO.HIGH)
     sleep(time)
     GPIO.output(pin, GPIO.LOW)
+
+# -_-_-_-_-_-_-_-_-_-_-_-_ Img2Binary -_-_-_-_-_-_-_-_-_-_-_-_
+def convertToBinaryData(filename):
+    with open(filename, 'rb') as file:
+        binaryData = file.read()
+    return binaryData
