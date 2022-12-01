@@ -2,16 +2,44 @@ import RPi.GPIO as GPIO
 import pygame 
 import pyaudio
 import wave
+import speech_recognition as sr
 from time import sleep
 from gtts import gTTS
 from picamera import PiCamera
 
-#import whisper # Speech2text model from OpenAI
+# -_-_-_-_-_-_-_-_-_-_-_-_ Text to speech method -_-_-_-_-_-_-_-_-_-_-_-_
+def t2s(msg):
+    speech = gTTS(text = msg, lang = 'es')
+    speech.save('computerAudio.mp3')
+    pygame.mixer.init()
+    pygame.mixer.music.load("computerAudio.mp3")
+    pygame.mixer.music.play()
+    while pygame.mixer.music.get_busy() == True:
+        continue
 
-# General configuration
-##model = whisper.load_model("base")
+# -_-_-_-_-_-_-_-_-_-_-_-_ Take picture -_-_-_-_-_-_-_-_-_-_-_-_
+def capture_photo(file_capture):
+    camera = PiCamera()
+    camera.resolution = (640, 480)
+    camera.framerate = 15
+    sleep(2)
+    camera.capture(file_capture)
+    print("\r\nImage Captured! \r\n")
+    camera.close()
 
-# -_-_-_-_-_-_-_-_-_-_-_-_ Method to get the audio -_-_-_-_-_-_-_-_-_-_-_-_
+# -_-_-_-_-_-_-_-_-_-_-_-_ Leds  -_-_-_-_-_-_-_-_-_-_-_-_
+def ledOn(pin, time):
+    GPIO.output(pin, GPIO.HIGH)
+    sleep(time)
+    GPIO.output(pin, GPIO.LOW)
+
+# -_-_-_-_-_-_-_-_-_-_-_-_ Img2Binary -_-_-_-_-_-_-_-_-_-_-_-_
+def convertToBinaryData(filename):
+    with open(filename, 'rb') as file:
+        binaryData = file.read()
+    return binaryData
+
+# -_-_-_-_-_-_-_-_-_-_-_-_ GetAudio -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 def getAudio(time):
     FRAME_PER_BUFFER = 3200
     FORMAT = pyaudio.paInt16 
@@ -44,47 +72,23 @@ def getAudio(time):
     obj.setsampwidth(p.get_sample_size(FORMAT))
     obj.setframerate(RATE)
     obj.writeframes(b"".join(frames))
-    obj.close()
+    # obj.close()
 
-## -_-_-_-_-_-_-_-_-_-_-_-_ Speech to text method -_-_-_-_-_-_-_-_-_-_-_-_
-#def s2t():
-#    result = model.transcribe("output.wav", fp16=False, language='Spanish')    
-#    return(result["text"].lower())
+# -_-_-_-_-_-_-_-_-_-_-_-_ s2t -_-_-_-_-_-_-_-_-_-_-_-_
 
-# -_-_-_-_-_-_-_-_-_-_-_-_ Text to speech method -_-_-_-_-_-_-_-_-_-_-_-_
-def t2s(msg):
-    speech = gTTS(text = msg, lang = 'es')
-    speech.save('computerAudio.mp3')
-    pygame.mixer.init()
-    pygame.mixer.music.load("computerAudio.mp3")
-    pygame.mixer.music.play()
-    while pygame.mixer.music.get_busy() == True:
-        continue
+def s2t(time):
+    getAudio(time)
+    r = sr.Recognizer()
+    voice = sr.AudioFile('output.wav')
+    with voice as source:
+        audio = r.record(source)
+    try:
+        print("Reconociendo audio...")
+        a = r.recognize_google(audio, language='es-ES')
+        return a # Texto reconocido
+    except Exception as e:
+        print(e)
 
-# -_-_-_-_-_-_-_-_-_-_-_-_ Get audio and apply s2t -_-_-_-_-_-_-_-_-_-_-_-_     
-#def recordAudio(time):
-#    getAudio(time)
-#    data = s2t()
-#    return data
+    print("Reconocimiento terminado")
 
-# -_-_-_-_-_-_-_-_-_-_-_-_ Take picture -_-_-_-_-_-_-_-_-_-_-_-_
-def capture_photo(file_capture):
-    camera = PiCamera()
-    camera.resolution = (640, 480)
-    camera.framerate = 15
-    sleep(2)
-    camera.capture(file_capture)
-    print("\r\nImage Captured! \r\n")
-    camera.close()
 
-# -_-_-_-_-_-_-_-_-_-_-_-_ Leds  -_-_-_-_-_-_-_-_-_-_-_-_
-def ledOn(pin, time):
-    GPIO.output(pin, GPIO.HIGH)
-    sleep(time)
-    GPIO.output(pin, GPIO.LOW)
-
-# -_-_-_-_-_-_-_-_-_-_-_-_ Img2Binary -_-_-_-_-_-_-_-_-_-_-_-_
-def convertToBinaryData(filename):
-    with open(filename, 'rb') as file:
-        binaryData = file.read()
-    return binaryData
