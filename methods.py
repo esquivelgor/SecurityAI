@@ -85,6 +85,7 @@ def s2t(time):
     try:
         print("Reconociendo audio...")
         a = r.recognize_google(audio, language='es-ES')
+        print(f"Data: {a}")
         return a # Texto reconocido
     except Exception as e:
         print(e)
