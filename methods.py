@@ -3,6 +3,9 @@ import pygame
 import pyaudio
 import wave
 import speech_recognition as sr
+import cv2
+import recognitionMethods as fr
+from simple_facerec import SimpleFacerec
 from time import sleep
 from gtts import gTTS
 from picamera import PiCamera
