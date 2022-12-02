@@ -36,7 +36,9 @@ while True:
 
     if GPIO.input(15) == GPIO.HIGH:
         print("Inicia proceso")
-        iot.t2s("Bienvenido al Tecnologico de Monterrey, ¿es usted estudiante o colaborador?")
+        iot.t2s("Bienvenido al Tecnologico de Monterrey, reconociendo usuario, favor de esperar")
+        faceData = iot.faceRecognition()
+        print(faceData)
         data = iot.s2t(3)
 
         loop = True

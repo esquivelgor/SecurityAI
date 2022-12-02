@@ -4,8 +4,8 @@ import pyaudio
 import wave
 import speech_recognition as sr
 import cv2
-import recognitionMethods as fr
-from simple_facerec import SimpleFacerec
+import face_recognition as fr
+from recognitionMethods import SimpleFacerec
 from time import sleep
 from gtts import gTTS
 from picamera import PiCamera
@@ -95,4 +95,31 @@ def s2t(time):
 
     print("Reconocimiento terminado")
 
+# -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- Face recognition -_-_-_-_-_-_-_-_
+def faceRecognition():
+    # General configuration 
+    sfr = SimpleFacerec()
+    sfr.load_encoding_images("images/")
+    cap = cv2.VideoCapture(0)
+
+    while True:
+        ret, frame = cap.read()
+
+        faceLocations, faceNames = sfr.detect_known_faces(frame)
+        try:
+            if faceNames == []:
+                print("No hay usuarios")
+                continue    
+            elif faceNames == ['Unknown']:
+                print("Desconocido")
+                return faceNames
+            else:
+                print(faceNames)
+                return faceNames
+        except Exception():
+            print("Hay errores gallo")
+            continue
+
+    cap.release()
+    cv2.destroyAllWindows() 
 
