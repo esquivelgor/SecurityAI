@@ -50,9 +50,102 @@ $conexion = mysqli_connect("localhost","root","","login");
     <?php
     }
     ?>
+    
+    </table>
+
+
+    <h1>Acceso de usuario</h1>
+    <table border="1" class="body__table">
+        <thead>
+            <td>ID_Registro</td>
+            <td>Acceso</td>
+            <td>ID_Usuario</td>
+            <td> </td>
+        </thead>
+
+        <?php
+        $sql = "SELECT * from accesos";
+        $result = mysqli_query($conexion,$sql );
+
+        while($mostrar=mysqli_fetch_array($result)){
+        ?>
+        
+        <tr>
+            <td><?php echo $mostrar['ID_Registro']?></td>
+            <td><?php echo $mostrar['Acceso']?></td>
+            <td><?php echo $mostrar['ID_Usuario']?></td>
+            <td><?php echo "<a href = 'editar.php?id=".$mostrar['id']."'>Editar</a>";?></td>
+        </tr> 
+    
+    <?php
+    }
+    ?>
 
     </table>
 
+    <h1>Usuarios</h1>
+    <table border="1" class="body__table">
+        <thead>
+            <td>ID_Usuario</td>
+            <td>Nombre</td>
+            <td>Edad</td>
+            <td>Tipo_Usuario</td>
+            <td></td>
+        </thead>
+
+        <?php
+        $sql = "SELECT * from usuarios";
+        $result = mysqli_query($conexion,$sql );
+
+        while($mostrar=mysqli_fetch_array($result)){
+        ?>
+        
+        <tr>
+            <td><?php echo $mostrar['ID_Usuario']?></td>
+            <td><?php echo $mostrar['Nombre']?></td>
+            <td><?php echo $mostrar['Edad']?></td>
+            <td><?php echo $mostrar['Tipo_Usuario']?></td>
+            <td><?php echo "<a href = 'editar.php?id=".$mostrar['id']."'>Editar</a>";?></td>
+        </tr> 
+    
+    <?php
+    }
+    ?>
+
+    </table>
+
+    <h1>Imagenes</h1>
+    <table border="1" class="body__table">
+        <thead>
+            <td>ID_Imagen</td>
+            <td>Imagen</td>
+            <td>ID_Usuario</td>
+            <td></td>
+        </thead>
+
+        <?php
+        $sql = "SELECT * from memorybank";
+        $result = mysqli_query($conexion,$sql );
+
+        while($mostrar=mysqli_fetch_array($result)){
+        ?>
+        
+        <tr>
+            <td><?php echo $mostrar['ID_Imagen']?></td>
+            <td><?php echo $mostrar['Imagen']?></td>
+            <td><?php echo $mostrar['ID_Usuario']?></td>
+            <td><?php echo "<a href = 'editar.php?id=".$mostrar['id']."'>Editar</a>";?></td>
+        </tr> 
+    
+    <?php
+    }
+    ?>
+
+    </table>
+
+    <?php
+$conexion = mysqli_connect("localhost","root","","login");
+?>
 
 </body>
 </html>
