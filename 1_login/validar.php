@@ -15,9 +15,10 @@ $filas=mysqli_num_rows($resultado);
 if($filas){
     header("location: ../2_Indicee/aindice.html");
 }else{
-    ?>
-    <?php
-    header ("location: ../index.php");
+    echo "<script language= 'JavaScript'>
+        alert('Usuario o Contraseña Incorrecta');
+        location.assign('../index.php');
+        </script>";
 }
 
 mysqli_free_result($resultado);

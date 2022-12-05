@@ -30,10 +30,11 @@ $conexion = mysqli_connect("localhost","root","","login");
             <td>id</td>
             <td>usuario</td>
             <td>contraseña</td>
+            <td> </td>
         </thead>
 
         <?php
-        $sql = "SELECT * from usuarios";
+        $sql = "SELECT * from admins";
         $result = mysqli_query($conexion,$sql );
 
         while($mostrar=mysqli_fetch_array($result)){
@@ -43,7 +44,8 @@ $conexion = mysqli_connect("localhost","root","","login");
             <td><?php echo $mostrar['id']?></td>
             <td><?php echo $mostrar['usuario']?></td>
             <td><?php echo $mostrar['contraseña']?></td>
-        </tr>
+            <td><?php echo "<a href = 'editar.php?id=".$mostrar['id']."'>Editar</a>";?></td>
+        </tr> 
     
     <?php
     }

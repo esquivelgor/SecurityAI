@@ -10,7 +10,10 @@ $insertar= "INSERT INTO admins VALUES (NULL,'$usuario', '$contraseña')";
 $query = mysqli_query($conexion,$insertar);
 
 if ($query){
-    header("location: ../../index.php");
+    echo "<script language= 'JavaScript'>
+                alert('Se ha registrado exitosamente');
+                location.assign('../../index.php');
+                </script>";
 }else{
     echo "incorrecto";
 }

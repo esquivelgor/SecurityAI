@@ -136,3 +136,7 @@ tr:nth-child(even){
     background-color: #ddd;
 
 }
+
+.row{
+    padding: 1px;
+}
