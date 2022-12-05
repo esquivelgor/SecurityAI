@@ -31,14 +31,15 @@ crsr = db.cursor()
 while True:
 
     # --- Variables ---
-    n = 2 # Leds time 
+    n = 2 # Leds time
+    matAlu =  " "
     matriculas = []
 
     if GPIO.input(15) == GPIO.HIGH:
         print("Inicia proceso")
         iot.t2s("Bienvenido al Tecnologico de Monterrey, reconociendo usuario, favor de esperar")
         faceData = iot.faceRecognition()
-        print(faceData)
+        iot.t2s(f"Bienvenido {faceData[0]}, eres estudiante o colaborador?")
         data = iot.s2t(3)
 
         loop = True

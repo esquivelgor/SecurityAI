@@ -97,9 +97,6 @@ def s2t(time):
 
 # -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- Face recognition -_-_-_-_-_-_-_-_
 def faceRecognition():
-    # General configuration 
-    sfr = SimpleFacerec()
-    sfr.load_encoding_images("images/")
     cap = cv2.VideoCapture(0)
 
     while True:
