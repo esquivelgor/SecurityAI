@@ -1,0 +1,1 @@
+# Test images for non-real time results

@@ -15,7 +15,7 @@ GPIO.setup(15, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Boton
 # --- Connection to the database ---
 
 try:
-    db = mysql.connector.connect(user='esquivelg', password='39932409', database='login')
+    db = mysql.connector.connect(user='----------', password='---------', database='login')
 except mysql.connector.Error as err:
     if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
         print("Something is wrong with your user name or password")
